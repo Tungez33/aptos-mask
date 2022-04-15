@@ -327,7 +327,8 @@ export default class ConfirmTransactionBase extends Component {
     const { t } = this.context;
     const { userAcknowledgedGasMissing } = this.state;
 
-    const { valid } = this.getErrorKey();
+    // const { valid } = this.getErrorKey();
+    const valid = true;
     const isDisabled = () => {
       return userAcknowledgedGasMissing ? false : !valid;
     };
@@ -999,7 +1000,7 @@ export default class ConfirmTransactionBase extends Component {
       hideSenderToRecipient,
       showAccountInHeader,
       txData,
-      gasIsLoading,
+      // gasIsLoading,
       gasFeeIsCustom,
       nativeCurrency,
       hardwareWalletRequiresConnection,
@@ -1014,8 +1015,14 @@ export default class ConfirmTransactionBase extends Component {
       userAcknowledgedGasMissing,
     } = this.state;
 
+    // TODO change it
+    const gasIsLoading = false;
+
     const { name } = methodData;
-    const { valid, errorKey } = this.getErrorKey();
+    // TODO change it
+    const { errorKey } = this.getErrorKey();
+    // const { valid, errorKey } = this.getErrorKey();
+    const valid = true;
     const hasSimulationError = Boolean(txData.simulationFails);
     const renderSimulationFailureWarning =
       hasSimulationError && !userAcknowledgedGasMissing;
@@ -1043,6 +1050,15 @@ export default class ConfirmTransactionBase extends Component {
         functionType = t('contractInteraction');
       }
     }
+
+    console.log('[Pontem] confirm transaction base', {
+        renderSimulationFailureWarning,
+        valid,
+        submitting,
+        hardwareWalletRequiresConnection,
+        gasIsLoading,
+        gasFeeIsCustom
+    });
 
     return (
       <TransactionModalContextProvider>

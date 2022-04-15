@@ -3,9 +3,13 @@ export const RINKEBY = 'rinkeby';
 export const KOVAN = 'kovan';
 export const MAINNET = 'mainnet';
 export const GOERLI = 'goerli';
+export const APTOS = 'aptos'
+export const PONTEM = 'pontem'
 export const LOCALHOST = 'localhost';
 export const NETWORK_TYPE_RPC = 'rpc';
 
+export const APTOS_NETWORK_ID = '6-aptos';
+export const PONTEM_NETWORK_ID = '6-pontem';
 export const MAINNET_NETWORK_ID = '1';
 export const ROPSTEN_NETWORK_ID = '3';
 export const RINKEBY_NETWORK_ID = '4';
@@ -13,6 +17,8 @@ export const GOERLI_NETWORK_ID = '5';
 export const KOVAN_NETWORK_ID = '42';
 export const LOCALHOST_NETWORK_ID = '1337';
 
+export const APTOS_CHAIN_ID = '0x61';
+export const PONTEM_CHAIN_ID = '0x62';
 export const MAINNET_CHAIN_ID = '0x1';
 export const ROPSTEN_CHAIN_ID = '0x3';
 export const RINKEBY_CHAIN_ID = '0x4';
@@ -33,10 +39,12 @@ export const CELO_CHAIN_ID = '0xa4ec';
  */
 export const MAX_SAFE_CHAIN_ID = 4503599627370476;
 
+export const APTOS_DISPLAY_NAME = 'Aptos';
+export const PONTEM_DISPLAY_NAME = 'Pontem';
 export const ROPSTEN_DISPLAY_NAME = 'Ropsten';
 export const RINKEBY_DISPLAY_NAME = 'Rinkeby';
 export const KOVAN_DISPLAY_NAME = 'Kovan';
-export const MAINNET_DISPLAY_NAME = 'Ethereum Mainnet';
+export const MAINNET_DISPLAY_NAME = 'Aptos';
 export const GOERLI_DISPLAY_NAME = 'Goerli';
 export const LOCALHOST_DISPLAY_NAME = 'Localhost 8545';
 
@@ -44,6 +52,8 @@ const infuraProjectId = process.env.INFURA_PROJECT_ID;
 export const getRpcUrl = ({ network, excludeProjectId = false }) =>
   `https://${network}.infura.io/v3/${excludeProjectId ? '' : infuraProjectId}`;
 
+export const APTOS_RPC_URL = 'https://fullnode.devnet.aptoslabs.com';
+export const PONTEM_RPC_URL = 'http://178.62.219.21:8080';
 export const ROPSTEN_RPC_URL = getRpcUrl({ network: ROPSTEN });
 export const RINKEBY_RPC_URL = getRpcUrl({ network: RINKEBY });
 export const KOVAN_RPC_URL = getRpcUrl({ network: KOVAN });
@@ -51,6 +61,8 @@ export const MAINNET_RPC_URL = getRpcUrl({ network: MAINNET });
 export const GOERLI_RPC_URL = getRpcUrl({ network: GOERLI });
 export const LOCALHOST_RPC_URL = 'http://localhost:8545';
 
+export const APTOS_SYMBOL = 'APTOS'
+export const PONTEM_SYMBOL = 'PONTEM'
 export const ETH_SYMBOL = 'ETH';
 export const WETH_SYMBOL = 'WETH';
 export const TEST_ETH_SYMBOL = 'TESTETH';
@@ -60,19 +72,18 @@ export const AVALANCHE_SYMBOL = 'AVAX';
 export const FANTOM_SYMBOL = 'FTM';
 export const CELO_SYMBOL = 'CELO';
 
+export const APTOS_TOKEN_IMAGE_URL = './images/aptos_logo.svg';
+export const PONTEM_TOKEN_IMAGE_URL = './images/aptos_logo.svg';
 export const ETH_TOKEN_IMAGE_URL = './images/eth_logo.svg';
 export const TEST_ETH_TOKEN_IMAGE_URL = './images/black-eth-logo.svg';
 export const BNB_TOKEN_IMAGE_URL = './images/bnb.png';
 export const MATIC_TOKEN_IMAGE_URL = './images/matic-token.png';
 export const AVAX_TOKEN_IMAGE_URL = './images/avax-token.png';
 
-export const INFURA_PROVIDER_TYPES = [ROPSTEN, RINKEBY, KOVAN, MAINNET, GOERLI];
+export const INFURA_PROVIDER_TYPES = [];
+export const DEFAULT_PROVIDER_TYPES = [APTOS, PONTEM];
 
 export const TEST_CHAINS = [
-  ROPSTEN_CHAIN_ID,
-  RINKEBY_CHAIN_ID,
-  GOERLI_CHAIN_ID,
-  KOVAN_CHAIN_ID,
   LOCALHOST_CHAIN_ID,
 ];
 
@@ -80,15 +91,19 @@ export const TEST_CHAINS = [
  * Map of all build-in Infura networks to their network and chain IDs.
  */
 export const NETWORK_TYPE_TO_ID_MAP = {
-  [ROPSTEN]: { networkId: ROPSTEN_NETWORK_ID, chainId: ROPSTEN_CHAIN_ID },
+  [APTOS]: { networkId: APTOS_NETWORK_ID, chainId: APTOS_CHAIN_ID },
+  [PONTEM]: { networkId: PONTEM_NETWORK_ID, chainId: PONTEM_CHAIN_ID },
+  // [ROPSTEN]: { networkId: ROPSTEN_NETWORK_ID, chainId: ROPSTEN_CHAIN_ID },
   [RINKEBY]: { networkId: RINKEBY_NETWORK_ID, chainId: RINKEBY_CHAIN_ID },
-  [KOVAN]: { networkId: KOVAN_NETWORK_ID, chainId: KOVAN_CHAIN_ID },
-  [GOERLI]: { networkId: GOERLI_NETWORK_ID, chainId: GOERLI_CHAIN_ID },
+  // [KOVAN]: { networkId: KOVAN_NETWORK_ID, chainId: KOVAN_CHAIN_ID },
+  // [GOERLI]: { networkId: GOERLI_NETWORK_ID, chainId: GOERLI_CHAIN_ID },
   [MAINNET]: { networkId: MAINNET_NETWORK_ID, chainId: MAINNET_CHAIN_ID },
   [LOCALHOST]: { networkId: LOCALHOST_NETWORK_ID, chainId: LOCALHOST_CHAIN_ID },
 };
 
 export const NETWORK_TO_NAME_MAP = {
+  [APTOS]: APTOS_DISPLAY_NAME,
+  [PONTEM]: PONTEM_DISPLAY_NAME,
   [ROPSTEN]: ROPSTEN_DISPLAY_NAME,
   [RINKEBY]: RINKEBY_DISPLAY_NAME,
   [KOVAN]: KOVAN_DISPLAY_NAME,
@@ -96,6 +111,8 @@ export const NETWORK_TO_NAME_MAP = {
   [GOERLI]: GOERLI_DISPLAY_NAME,
   [LOCALHOST]: LOCALHOST_DISPLAY_NAME,
 
+  [PONTEM_NETWORK_ID]: PONTEM_DISPLAY_NAME,
+  [APTOS_NETWORK_ID]: APTOS_DISPLAY_NAME,
   [ROPSTEN_NETWORK_ID]: ROPSTEN_DISPLAY_NAME,
   [RINKEBY_NETWORK_ID]: RINKEBY_DISPLAY_NAME,
   [KOVAN_NETWORK_ID]: KOVAN_DISPLAY_NAME,
@@ -103,6 +120,8 @@ export const NETWORK_TO_NAME_MAP = {
   [MAINNET_NETWORK_ID]: MAINNET_DISPLAY_NAME,
   [LOCALHOST_NETWORK_ID]: LOCALHOST_DISPLAY_NAME,
 
+  [PONTEM_CHAIN_ID]: PONTEM_DISPLAY_NAME,
+  [APTOS_CHAIN_ID]: APTOS_DISPLAY_NAME,
   [ROPSTEN_CHAIN_ID]: ROPSTEN_DISPLAY_NAME,
   [RINKEBY_CHAIN_ID]: RINKEBY_DISPLAY_NAME,
   [KOVAN_CHAIN_ID]: KOVAN_DISPLAY_NAME,
@@ -119,6 +138,8 @@ export const CHAIN_ID_TO_TYPE_MAP = Object.entries(
 }, {});
 
 export const CHAIN_ID_TO_RPC_URL_MAP = {
+  [PONTEM_CHAIN_ID]: PONTEM_RPC_URL,
+  [APTOS_CHAIN_ID]: APTOS_RPC_URL,
   [ROPSTEN_CHAIN_ID]: ROPSTEN_RPC_URL,
   [RINKEBY_CHAIN_ID]: RINKEBY_RPC_URL,
   [KOVAN_CHAIN_ID]: KOVAN_RPC_URL,
@@ -135,6 +156,8 @@ export const CHAIN_ID_TO_NETWORK_ID_MAP = Object.values(
 }, {});
 
 export const NATIVE_CURRENCY_TOKEN_IMAGE_MAP = {
+  [PONTEM_SYMBOL]: PONTEM_TOKEN_IMAGE_URL,
+  [APTOS_SYMBOL]: APTOS_TOKEN_IMAGE_URL,
   [ETH_SYMBOL]: ETH_TOKEN_IMAGE_URL,
   [TEST_ETH_SYMBOL]: TEST_ETH_TOKEN_IMAGE_URL,
   [BNB_SYMBOL]: BNB_TOKEN_IMAGE_URL,

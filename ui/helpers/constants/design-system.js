@@ -28,6 +28,8 @@ export const COLORS = {
   ALERT1: 'alert-1',
   ALERT2: 'alert-2',
   ALERT3: 'alert-3',
+  APTOS: 'aptos',
+  PONTEM: 'pontem',
   MAINNET: 'mainnet',
   ROPSTEN: 'ropsten',
   KOVAN: 'kovan',

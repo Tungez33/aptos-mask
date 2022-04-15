@@ -7,27 +7,27 @@
  * on each new block.
  */
 
-import EthQuery from 'eth-query';
-
 import { ObservableStore } from '@metamask/obs-store';
 import log from 'loglevel';
 import pify from 'pify';
 import Web3 from 'web3';
 import SINGLE_CALL_BALANCES_ABI from 'single-call-balance-checker-abi';
-import {
-  MAINNET_CHAIN_ID,
-  RINKEBY_CHAIN_ID,
-  ROPSTEN_CHAIN_ID,
-  KOVAN_CHAIN_ID,
-} from '../../../shared/constants/network';
-
-import {
-  SINGLE_CALL_BALANCES_ADDRESS,
-  SINGLE_CALL_BALANCES_ADDRESS_RINKEBY,
-  SINGLE_CALL_BALANCES_ADDRESS_ROPSTEN,
-  SINGLE_CALL_BALANCES_ADDRESS_KOVAN,
-} from '../constants/contracts';
+// import {
+//   MAINNET_CHAIN_ID,
+//   RINKEBY_CHAIN_ID,
+//   ROPSTEN_CHAIN_ID,
+//   KOVAN_CHAIN_ID,
+// } from '../../../shared/constants/network';
+//
+// import {
+//   SINGLE_CALL_BALANCES_ADDRESS,
+//   SINGLE_CALL_BALANCES_ADDRESS_RINKEBY,
+//   SINGLE_CALL_BALANCES_ADDRESS_ROPSTEN,
+//   SINGLE_CALL_BALANCES_ADDRESS_KOVAN,
+// } from '../constants/contracts';
 import { bnToHex } from './util';
+import PontemQuery from '@pontem/pontem-query';
+import BigNumber from 'bignumber.js';
 
 /**
  * This module is responsible for tracking any number of accounts and caching their current balances & transaction
@@ -60,7 +60,7 @@ export default class AccountTracker {
     this.store = new ObservableStore(initState);
 
     this._provider = opts.provider;
-    this._query = pify(new EthQuery(this._provider));
+    this._query = pify(new PontemQuery(this._provider));
     this._blockTracker = opts.blockTracker;
     // blockTracker.currentBlock may be null
     this._currentBlockNumber = this._blockTracker.getCurrentBlock();
@@ -176,12 +176,12 @@ export default class AccountTracker {
     this._currentBlockNumber = blockNumber;
 
     // block gasLimit polling shouldn't be in account-tracker shouldn't be here...
-    const currentBlock = await this._query.getBlockByNumber(blockNumber, false);
-    if (!currentBlock) {
-      return;
-    }
-    const currentBlockGasLimit = currentBlock.gasLimit;
-    this.store.updateState({ currentBlockGasLimit });
+    // const currentBlock = await this._query.getBlockByNumber(blockNumber, false);
+    // if (!currentBlock) {
+    //   return;
+    // }
+    // const currentBlockGasLimit = currentBlock.gasLimit;
+    // this.store.updateState({ currentBlockGasLimit });
 
     try {
       await this._updateAccounts();
@@ -199,40 +199,42 @@ export default class AccountTracker {
   async _updateAccounts() {
     const { accounts } = this.store.getState();
     const addresses = Object.keys(accounts);
-    const chainId = this.getCurrentChainId();
+    // const chainId = this.getCurrentChainId();
+    //
+    // switch (chainId) {
+    //   case MAINNET_CHAIN_ID:
+    //     await this._updateAccountsViaBalanceChecker(
+    //       addresses,
+    //       SINGLE_CALL_BALANCES_ADDRESS,
+    //     );
+    //     break;
+    //
+    //   case RINKEBY_CHAIN_ID:
+    //     await this._updateAccountsViaBalanceChecker(
+    //       addresses,
+    //       SINGLE_CALL_BALANCES_ADDRESS_RINKEBY,
+    //     );
+    //     break;
+    //
+    //   case ROPSTEN_CHAIN_ID:
+    //     await this._updateAccountsViaBalanceChecker(
+    //       addresses,
+    //       SINGLE_CALL_BALANCES_ADDRESS_ROPSTEN,
+    //     );
+    //     break;
+    //
+    //   case KOVAN_CHAIN_ID:
+    //     await this._updateAccountsViaBalanceChecker(
+    //       addresses,
+    //       SINGLE_CALL_BALANCES_ADDRESS_KOVAN,
+    //     );
+    //     break;
+    //
+    //   default:
+    //     await Promise.all(addresses.map(this._updateAccount.bind(this)));
+    // }
 
-    switch (chainId) {
-      case MAINNET_CHAIN_ID:
-        await this._updateAccountsViaBalanceChecker(
-          addresses,
-          SINGLE_CALL_BALANCES_ADDRESS,
-        );
-        break;
-
-      case RINKEBY_CHAIN_ID:
-        await this._updateAccountsViaBalanceChecker(
-          addresses,
-          SINGLE_CALL_BALANCES_ADDRESS_RINKEBY,
-        );
-        break;
-
-      case ROPSTEN_CHAIN_ID:
-        await this._updateAccountsViaBalanceChecker(
-          addresses,
-          SINGLE_CALL_BALANCES_ADDRESS_ROPSTEN,
-        );
-        break;
-
-      case KOVAN_CHAIN_ID:
-        await this._updateAccountsViaBalanceChecker(
-          addresses,
-          SINGLE_CALL_BALANCES_ADDRESS_KOVAN,
-        );
-        break;
-
-      default:
-        await Promise.all(addresses.map(this._updateAccount.bind(this)));
-    }
+    await Promise.all(addresses.map(this._updateAccount.bind(this)));
   }
 
   /**
@@ -244,7 +246,15 @@ export default class AccountTracker {
    */
   async _updateAccount(address) {
     // query balance
-    const balance = await this._query.getBalance(address);
+    const resources = await this._query.getAccountResources(address);
+
+    let balance = '0x0';
+    (resources || []).forEach(resource => {
+      if(resource.type === '0x1::TestCoin::Balance') {
+        balance = bnToHex(new BigNumber(resource.data.coin.value, 10).times(new BigNumber(10, 10).pow(18)))
+      }
+    })
+
     const result = { address, balance };
     // update accounts state
     const { accounts } = this.store.getState();

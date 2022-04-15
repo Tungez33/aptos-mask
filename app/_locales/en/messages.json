@@ -3792,5 +3792,12 @@
   },
   "zeroGasPriceOnSpeedUpError": {
     "message": "Zero gas price on speed up"
+  },
+
+  "aptos": {
+    "message": "Aptos"
+  },
+  "pontem": {
+    "message": "Pontem"
   }
 }

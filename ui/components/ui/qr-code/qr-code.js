@@ -24,11 +24,11 @@ function QrCodeView(props) {
   const { Qr, warning } = props;
   const { message, data } = Qr;
   const address = `${
-    isHexPrefixed(data) ? 'ethereum:' : ''
+    isHexPrefixed(data) ? 'aptos:' : ''
   }${toChecksumHexAddress(data)}`;
   const [copied, handleCopy] = useCopyToClipboard();
   const t = useI18nContext();
-  const qrImage = qrCode(4, 'M');
+  const qrImage = qrCode(0, 'M');
   qrImage.addData(address);
   qrImage.make();
 

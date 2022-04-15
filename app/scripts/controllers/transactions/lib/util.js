@@ -131,6 +131,7 @@ function ensureProperTransactionEnvelopeTypeProvided(txParams, field) {
  * @throws {Error} if the tx params contains invalid fields
  */
 export function validateTxParams(txParams, eip1559Compatibility = true) {
+  console.log('[Pontem] called validateTxParams', { txParams });
   if (!txParams || typeof txParams !== 'object' || Array.isArray(txParams)) {
     throw ethErrors.rpc.invalidParams(
       'Invalid transaction params: must be an object.',
@@ -148,6 +149,7 @@ export function validateTxParams(txParams, eip1559Compatibility = true) {
   }
 
   Object.entries(txParams).forEach(([key, value]) => {
+
     // validate types
     switch (key) {
       case 'from':

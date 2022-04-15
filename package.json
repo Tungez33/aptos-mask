@@ -68,6 +68,7 @@
     "lavamoat:auto": "yarn lavamoat:build:auto && yarn lavamoat:background:auto"
   },
   "resolutions": {
+    "@onekeyhq/connect": "8.7.0",
     "**/regenerator-runtime": "^0.13.7",
     "**/caniuse-lite": "1.0.30001265",
     "**/configstore/dot-prop": "^5.1.1",
@@ -124,10 +125,14 @@
     "@metamask/smart-transactions-controller": "^1.9.1",
     "@metamask/snap-controllers": "^0.9.0",
     "@ngraveio/bc-ur": "^1.1.6",
+    "@onekeyhq/connect": "^8.7.0-extended",
     "@popperjs/core": "^2.4.0",
     "@reduxjs/toolkit": "^1.6.2",
     "@sentry/browser": "^6.0.0",
     "@sentry/integrations": "^6.0.0",
+    "@starcoin/stc-keyring-controller": "^1.5.3",
+    "@starcoin/stc-onekey-keyring": "^1.0.1",
+    "@starcoin/stc-util": "^0.4.1",
     "@truffle/codec": "^0.11.18",
     "@truffle/decoder": "^5.1.0",
     "@zxing/browser": "^0.0.10",
@@ -409,6 +414,9 @@
       "eth-json-rpc-middleware>eth-sig-util>ethereumjs-util>keccak": false,
       "eth-json-rpc-middleware>eth-sig-util>ethereumjs-util>secp256k1": false,
       "eth-lattice-keyring>gridplus-sdk": false,
+      "ganache>secp256k1": true,
+      "secp256k1": true,
+      "eth-lattice-keyring>gridplus-sdk>secp256k1": true,
       "eth-trezor-keyring>hdkey>secp256k1": false,
       "eth-trezor-keyring>trezor-connect>@trezor/utxo-lib>blake-hash": false,
       "eth-trezor-keyring>trezor-connect>trezor-link>protobufjs": false,
@@ -417,7 +425,18 @@
       "ganache>leveldown": false,
       "geckodriver": true,
       "react-devtools>electron": true,
-      "eth-trezor-keyring>trezor-connect>@trezor/transport>protobufjs": false
+      "@starcoin/stc-onekey-keyring": true,
+      "@starcoin/stc-onekey-keyring>@onekeyhq/connect>eth-sig-util>ethereumjs-abi>ethereumjs-util>ethereum-cryptography>keccak": true,
+      "@starcoin/stc-onekey-keyring>@onekeyhq/connect>eth-sig-util>ethereumjs-abi>ethereumjs-util>ethereum-cryptography>secp256k1": true,
+      "@starcoin/stc-onekey-keyring>@onekeyhq/connect>eth-sig-util>ethereumjs-util>keccak": true,
+      "@starcoin/stc-onekey-keyring>@onekeyhq/connect>eth-sig-util>ethereumjs-util>secp256k1": true,
+      "eth-trezor-keyring>trezor-connect>@trezor/transport>protobufjs": false,
+      "@starcoin/stc-onekey-keyring>@onekeyhq/connect>postinstall-postinstall": true,
+      "@onekeyhq/connect>keccak": true,
+      "@keystonehq/bc-ur-registry-eth>hdkey>secp256k1": true,
+      "@metamask/rpc-methods>@metamask/key-tree>keccak": true,
+      "@metamask/rpc-methods>@metamask/key-tree>secp256k1": true,
+      "@onekeyhq/connect>postinstall-postinstall": true
     }
   }
 }

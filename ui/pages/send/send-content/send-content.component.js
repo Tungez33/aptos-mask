@@ -53,6 +53,12 @@ export default class SendContent extends Component {
       assetError,
     } = this.props;
 
+    console.log('[Pontem][SendContent] gas', {
+      gasIsExcessive,
+      noGasPrice,
+      getIsBalanceInsufficient,
+    });
+
     let gasError;
     if (gasIsExcessive) {
       gasError = GAS_PRICE_EXCESSIVE_ERROR_KEY;

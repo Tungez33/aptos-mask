@@ -1,5 +1,13 @@
 {
   "resources": {
+    "bn.js": {
+      "globals": {
+        "buffer": true
+      },
+      "packages": {
+        "buffer": true
+      }
+    },
     "browser-resolve": {
       "packages": {
         "core-js": true
@@ -54,6 +62,106 @@
     "storage": {
       "globals": {
         "localStorage": true
+      }
+    },
+    "@starcoin/stc-ed25519": {
+      "packages": {
+        "process": true
+      }
+    },
+    "@starcoin/stc-onekey-keyring": {
+      "packages": {
+        "buffer": true,
+        "events": true,
+        "@onekeyhq/connect": true,
+        "@starcoin/starcoin": true,
+        "@starcoin/stc-hdkey": true,
+        "@starcoin/stc-util": true,
+        "eth-sig-util": true,
+        "ethereumjs-tx": true,
+        "loglevel": true
+      }
+    },
+    "@onekeyhq/connect": {
+      "packages": {
+        "events": true,
+        "@babel/runtime": true,
+        "@sentry/browser": true,
+        "@sentry/integrations": true,
+        "@sentry/tracing": true,
+        "base58-js": true,
+        "eth-sig-util":true,
+        "events": true,
+        "patch-package": true,
+        "postinstall-postinstall": true,
+        "url-join": true,
+        "whatwg-fetch": true,
+        "@onekeyhq/blockchain-link": true,
+        "@onekeyhq/rollout":true,
+        "@onekeyhq/link":true,
+        "@trezor/utxo-lib": true,
+        "bchaddrjs":true,
+        "bignumber.js": true,
+        "bowser": true,
+        "hd-wallet":true,
+        "keccak": true,
+        "node-fetch": true,
+        "parse-uri": true,
+        "tiny-worker":true,
+        "process": true
+      }
+    },
+    "@starcoin/stc-util": {
+      "packages": {
+        "assert": true,
+        "bn.js": true,
+        "rlp": true,
+        "keccak": true,
+        "secp256k1": true,
+        "create-hash": true,
+        "ethjs-util": true,
+        "js-sha3": true,
+        "noble-ed25519": true,
+        "safe-buffer": true
+      }
+    },
+    "@starcoin/stc-hdkey": {
+      "packages": {
+        "assert": true,
+        "@starcoin/stc-util": true,
+        "coinstring": true,
+        "safe-buffer": true,
+        "secp256k1": true,
+        "crypto-browserify": true
+      }
+    },
+    "@starcoin/starcoin": {
+      "packages": {
+        "buffer": true,
+        "@ethersproject/basex": true,
+        "@ethersproject/bignumber": true,
+        "@ethersproject/bytes": true,
+        "@ethersproject/hash": true,
+        "@ethersproject/keccak256": true,
+        "@ethersproject/logger": true,
+        "@ethersproject/properties": true,
+        "@ethersproject/sha2": true,
+        "@ethersproject/web": true,
+        "@starcoin/stc-ed25519": true,
+        "bech32": true,
+        "ethereumjs-util": true,
+        "fs": true,
+        "is-alphabetical": true,
+        "is-alphanumerical": true,
+        "is-decimal": true,
+        "is-hexadecimal": true,
+        "is-whitespace-character": true,
+        "is-word-character": true,
+        "js-sha3": true,
+        "jssha": true,
+        "lodash": true,
+        "read-bigint": true,
+        "ws": true
       }
     }
   }

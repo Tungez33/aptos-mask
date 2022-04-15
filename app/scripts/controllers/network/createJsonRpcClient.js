@@ -39,6 +39,7 @@ export default function createJsonRpcClient({ rpcUrl, chainId }) {
 
 function createChainIdMiddleware(chainId) {
   return (req, res, next, end) => {
+    console.log('[Pontem] middleware', req, res);
     if (req.method === 'eth_chainId') {
       res.result = chainId;
       return end();

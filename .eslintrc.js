@@ -74,6 +74,8 @@ module.exports = {
     ],
 
     'import/no-unassigned-import': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'node/no-extraneous-import': 'off',
 
     'no-invalid-this': 'off',
     '@babel/no-invalid-this': 'error',

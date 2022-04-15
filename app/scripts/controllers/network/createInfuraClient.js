@@ -24,6 +24,7 @@ export default function createInfuraClient({ network, projectId }) {
   const blockTracker = new PollingBlockTracker({ provider: infuraProvider });
 
   const networkMiddleware = mergeMiddleware([
+    createCustomMiddleware(),
     createNetworkAndChainIdMiddleware({ network }),
     createBlockCacheMiddleware({ blockTracker }),
     createInflightCacheMiddleware(),
@@ -33,6 +34,14 @@ export default function createInfuraClient({ network, projectId }) {
     infuraMiddleware,
   ]);
   return { networkMiddleware, blockTracker };
+}
+
+function createCustomMiddleware() {
+  return (req, res, next) => {
+    console.log('[Pontem] middleware', req, res);
+
+    return next();
+  };
 }
 
 function createNetworkAndChainIdMiddleware({ network }) {

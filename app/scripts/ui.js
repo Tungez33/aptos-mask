@@ -8,7 +8,6 @@ import PortStream from 'extension-port-stream';
 import extension from 'extensionizer';
 
 import Eth from 'ethjs';
-import EthQuery from 'eth-query';
 import StreamProvider from 'web3-stream-provider';
 import log from 'loglevel';
 import launchMetaMaskUi from '../../ui';
@@ -20,6 +19,7 @@ import ExtensionPlatform from './platforms/extension';
 import { setupMultiplex } from './lib/stream-utils';
 import { getEnvironmentType } from './lib/util';
 import metaRPCClientFactory from './lib/metaRPCClientFactory';
+import PontemQuery from '@pontem/pontem-query';
 
 start().catch(log.error);
 
@@ -103,6 +103,11 @@ function initializeUi(activeTab, container, connectionStream, cb) {
       cb,
     );
   });
+
+  // Add Pontem logger
+  global.__log = (...args) => {
+    console.log('[Pontem]', ...args);
+  }
 }
 
 /**
@@ -128,7 +133,7 @@ function setupWeb3Connection(connectionStream) {
   connectionStream.on('error', console.error.bind(console));
   providerStream.on('error', console.error.bind(console));
   global.ethereumProvider = providerStream;
-  global.ethQuery = new EthQuery(providerStream);
+  global.ethQuery = new PontemQuery(providerStream);
   global.eth = new Eth(providerStream);
 }
 

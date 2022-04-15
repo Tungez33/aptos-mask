@@ -55,6 +55,11 @@
       "globals": {
         "localStorage": true
       }
+    },
+    "@starcoin/stc-onekey-keyring": {
+      "packages": {
+        "buffer": true
+      }
     }
   }
 }

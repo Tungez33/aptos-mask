@@ -1,6 +1,5 @@
 import {
   isHexString,
-  isValidAddress,
   isValidChecksumAddress,
   addHexPrefix,
   toChecksumAddress,
@@ -38,21 +37,27 @@ export function isValidHexAddress(
   const addressToCheck = allowNonPrefixed
     ? addHexPrefix(possibleAddress)
     : possibleAddress;
+  console.log('[Pontem] address To Check', addressToCheck);
   if (!isHexString(addressToCheck)) {
+    console.log('[Pontem] invalid hex address', addressToCheck);
     return false;
   }
 
   if (mixedCaseUseChecksum) {
-    const prefixRemoved = addressToCheck.slice(2);
-    const lower = prefixRemoved.toLowerCase();
-    const upper = prefixRemoved.toUpperCase();
-    const allOneCase = prefixRemoved === lower || prefixRemoved === upper;
-    if (!allOneCase) {
-      return isValidChecksumAddress(addressToCheck);
-    }
+    // const prefixRemoved = addressToCheck.slice(2);
+    // const lower = prefixRemoved.toLowerCase();
+    // const upper = prefixRemoved.toUpperCase();
+    // const allOneCase = prefixRemoved === lower || prefixRemoved === upper;
+    // if (!allOneCase) {
+    //   return isValidChecksumAddress(addressToCheck);
+    // }
+    return true
   }
 
-  return isValidAddress(addressToCheck);
+  const isValid = isValidAddress(addressToCheck);
+  console.log('[Pontem] is valid address', isValid);
+
+  return isValid
 }
 
 export function toChecksumHexAddress(address) {
@@ -72,4 +77,17 @@ export function toChecksumHexAddress(address) {
     return hexPrefixed;
   }
   return toChecksumAddress(addHexPrefix(address));
+}
+
+export function isValidAddress(hexAddress) {
+  try {
+    if (typeof hexAddress !== 'string') {
+      const msg = `This method only supports strings but input was: ${hexAddress}`
+      throw new Error(msg)
+    }
+  } catch (e) {
+    return false
+  }
+
+  return /^0x[0-9a-fA-F]{40,64}$/.test(hexAddress)
 }

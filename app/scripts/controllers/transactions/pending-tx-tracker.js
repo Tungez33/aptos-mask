@@ -1,7 +1,7 @@
 import EventEmitter from 'safe-event-emitter';
 import log from 'loglevel';
-import EthQuery from 'ethjs-query';
 import { TRANSACTION_STATUSES } from '../../../../shared/constants/transaction';
+import PontemQuery from '@pontem/pontem-query';
 
 /**
  * Event emitter utility class for tracking the transactions as they
@@ -40,7 +40,7 @@ export default class PendingTransactionTracker extends EventEmitter {
    */
   constructor(config) {
     super();
-    this.query = config.query || new EthQuery(config.provider);
+    this.query = config.query || new PontemQuery(config.provider);
     this.nonceTracker = config.nonceTracker;
     this.getPendingTransactions = config.getPendingTransactions;
     this.getCompletedTransactions = config.getCompletedTransactions;
@@ -195,15 +195,31 @@ export default class PendingTransactionTracker extends EventEmitter {
     }
 
     try {
-      const transactionReceipt = await this.query.getTransactionReceipt(txHash);
-      if (transactionReceipt?.blockNumber) {
-        const {
-          baseFeePerGas,
-          timestamp: blockTimestamp,
-        } = await this.query.getBlockByHash(
-          transactionReceipt?.blockHash,
-          false,
+      const transactionReceipt = await (new Promise((resolve, reject) => {
+        this.query.getTransaction(txHash, (err, response) => {
+          if(err) {
+            return reject(err);
+          }
+
+          return resolve(response)
+        })
+      }));
+
+      if(transactionReceipt.success === false) {
+        const noTxHashErr = new Error(
+          `We had an error while submitting this transaction, please check transaction details and try again. (${transactionReceipt.vm_status})`,
         );
+        noTxHashErr.name = 'VMExecuteError';
+        this.emit('tx:failed', txId, noTxHashErr);
+
+        return;
+      }
+
+      if (transactionReceipt?.version) {
+        const {
+          gas_used: baseFeePerGas,
+          timestamp: blockTimestamp,
+        } = transactionReceipt;
 
         this.emit(
           'tx:confirmed',
@@ -236,29 +252,30 @@ export default class PendingTransactionTracker extends EventEmitter {
    * @private
    */
   async _checkIfTxWasDropped(txMeta) {
-    const {
-      hash: txHash,
-      txParams: { nonce, from },
-    } = txMeta;
-    const networkNextNonce = await this.query.getTransactionCount(from);
+    return false;
+    // const {
+    //   hash: txHash,
+    //   txParams: { nonce, from },
+    // } = txMeta;
+    // const networkNextNonce = await this.query.getTransactionCount(from);
 
-    if (parseInt(nonce, 16) >= networkNextNonce.toNumber()) {
-      return false;
-    }
-
-    if (!this.droppedBlocksBufferByHash.has(txHash)) {
-      this.droppedBlocksBufferByHash.set(txHash, 0);
-    }
-
-    const currentBlockBuffer = this.droppedBlocksBufferByHash.get(txHash);
-
-    if (currentBlockBuffer < this.DROPPED_BUFFER_COUNT) {
-      this.droppedBlocksBufferByHash.set(txHash, currentBlockBuffer + 1);
-      return false;
-    }
-
-    this.droppedBlocksBufferByHash.delete(txHash);
-    return true;
+    // if (parseInt(nonce, 16) >= networkNextNonce.toNumber()) {
+    //   return false;
+    // }
+    //
+    // if (!this.droppedBlocksBufferByHash.has(txHash)) {
+    //   this.droppedBlocksBufferByHash.set(txHash, 0);
+    // }
+    //
+    // const currentBlockBuffer = this.droppedBlocksBufferByHash.get(txHash);
+    //
+    // if (currentBlockBuffer < this.DROPPED_BUFFER_COUNT) {
+    //   this.droppedBlocksBufferByHash.set(txHash, currentBlockBuffer + 1);
+    //   return false;
+    // }
+    //
+    // this.droppedBlocksBufferByHash.delete(txHash);
+    // return true;
   }
 
   /**

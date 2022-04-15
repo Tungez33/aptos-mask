@@ -673,6 +673,10 @@ const slice = createSlice({
      * @param action
      */
     updateSendAmount: (state, action) => {
+      console.log('[Pontem][Ducks][Slice] updateSendAmount ', {
+        state
+      });
+
       state.amount.value = addHexPrefix(action.payload);
       // Once amount has changed, validate the field
       slice.caseReducers.validateAmountField(state);
@@ -1114,6 +1118,11 @@ const slice = createSlice({
     },
     resetSendState: () => initialState,
     validateAmountField: (state) => {
+      console.log('[Pontem][Ducks] validateAmountField -- state', {
+        asset: JSON.parse(JSON.stringify(state.asset)),
+        amount: state.amount,
+        gas: state.gas
+      });
       switch (true) {
         // set error to INSUFFICIENT_FUNDS_ERROR if the account balance is lower
         // than the total price of the transaction inclusive of gas fees.
@@ -1403,6 +1412,7 @@ export function resetSendState() {
  */
 export function updateSendAmount(amount) {
   return async (dispatch, getState) => {
+    console.log('[Pontem][Ducks] updateSendAmount ', amount);
     await dispatch(actions.updateSendAmount(amount));
     const state = getState();
     if (state.send.amount.mode === AMOUNT_MODES.MAX) {
@@ -1674,6 +1684,9 @@ export function signTransaction() {
       account: { address: selectedAddress },
       eip1559support,
     } = state[name];
+
+    console.log('[Pontem][Ducks][signTransaction] state', state[name]);
+
     if (stage === SEND_STAGES.EDIT) {
       // When dealing with the edit flow there is already a transaction in
       // state that we must update, this branch is responsible for that logic.
@@ -1749,6 +1762,9 @@ export function signTransaction() {
         dispatch(displayWarning(error.message));
       }
     } else {
+      global.__log('[Ducks] signTransaction', {
+        txParams,
+      })
       // When sending a native asset we use the ethQuery.sendTransaction method
       // which will result in the transaction being added to background state
       // and a subsequent confirmation will be queued.

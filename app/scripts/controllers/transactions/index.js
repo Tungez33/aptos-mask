@@ -7,7 +7,8 @@ import abi from 'human-standard-token-abi';
 import Common from '@ethereumjs/common';
 import { TransactionFactory } from '@ethereumjs/tx';
 import { ethers } from 'ethers';
-import NonceTracker from 'nonce-tracker';
+import NonceTracker from '@pontem/nonce-tracker';
+
 import log from 'loglevel';
 import BigNumber from 'bignumber.js';
 import cleanErrorStack from '../../lib/cleanErrorStack';
@@ -53,6 +54,7 @@ import TransactionStateManager from './tx-state-manager';
 import TxGasUtil from './tx-gas-utils';
 import PendingTransactionTracker from './pending-tx-tracker';
 import * as txUtils from './lib/util';
+import PontemQuery from '@pontem/pontem-query';
 
 const hstInterface = new ethers.utils.Interface(abi);
 
@@ -133,6 +135,7 @@ export default class TransactionController extends EventEmitter {
 
     this.memStore = new ObservableStore({});
     this.query = new EthQuery(this.provider);
+    this.pontemQuery = new PontemQuery(this.provider);
 
     this.txGasUtil = new TxGasUtil(this.provider);
     this._mapMethods();
@@ -165,7 +168,19 @@ export default class TransactionController extends EventEmitter {
     this.pendingTxTracker = new PendingTransactionTracker({
       provider: this.provider,
       nonceTracker: this.nonceTracker,
-      publishTransaction: (rawTx) => this.query.sendRawTransaction(rawTx),
+      publishTransaction: (rawTx) => {
+        return (new Promise((resolve, reject) => {
+            this.pontemQuery.submitTransaction(rawTx, (err, response) => {
+              if(err) {
+                reject(err);
+                return;
+              }
+
+              resolve(response.hash);
+            })
+          })
+        );
+      },
       getPendingTransactions: () => {
         const pending = this.txStateManager.getPendingTransactions();
         const approved = this.txStateManager.getApprovedTransactions();
@@ -1054,15 +1069,54 @@ export default class TransactionController extends EventEmitter {
     };
     // sign tx
     const fromAddress = txParams.from;
-    const common = await this.getCommonConfiguration(txParams.from);
-    const unsignedEthTx = TransactionFactory.fromTxData(txParams, { common });
-    const signedEthTx = await this.signEthTx(unsignedEthTx, fromAddress);
+    console.log('[Pontem][TransactionController] txParams', { txParams, amount: new BigNumber(txParams.value, 16).toString(10) });
+
+    // TODO move into create tx step
+    const payload = {
+      sender: fromAddress,
+      sequence_number: parseInt(txParams.nonce, 16).toString(),
+      max_gas_amount: "1000",
+      gas_unit_price: "1",
+      gas_currency_code: "XUS",
+      expiration_timestamp_secs: (Math.floor(Date.now() / 1000) + 600).toString(),
+      payload: {
+        type: "script_function_payload",
+        function: "0x1::TestCoin::transfer",
+        type_arguments: [],
+        arguments: [
+          txParams.to,
+          new BigNumber(txParams.value, 16).div(new BigNumber(10, 10).pow(18)).toString(10)
+        ]
+      },
+    }
+
+    const msgForSign = await (new Promise((resolve, reject) => {
+      this.pontemQuery.createSignMessage(payload, (err, response) => {
+        if(err) {
+          reject(err);
+          return
+        }
+
+        resolve(response)
+      })
+    })).then(response => response.message)
+
+    console.log('[Pontem][TransactionController] msgForSign', { msgForSign });
+
+    // const common = await this.getCommonConfiguration(txParams.from);
+    // console.log('[Pontem][TransactionController] getCommonConfiguration', { common });
+    // const unsignedEthTx = TransactionFactory.fromTxData(txParams, { common });
+    // console.log('[Pontem][TransactionController] unsignedEthTx', { unsignedEthTx });
+    const signature = await this.signEthTx(msgForSign, fromAddress);
+    payload.signature = signature
+
+    console.log('[Pontem][TransactionController] signed tx', payload);
 
     // add r,s,v values for provider request purposes see createMetamaskMiddleware
     // and JSON rpc standard for further explanation
-    txMeta.r = bufferToHex(signedEthTx.r);
-    txMeta.s = bufferToHex(signedEthTx.s);
-    txMeta.v = bufferToHex(signedEthTx.v);
+    // txMeta.r = bufferToHex(signedEthTx.r);
+    // txMeta.s = bufferToHex(signedEthTx.s);
+    // txMeta.v = bufferToHex(signedEthTx.v);
 
     this.txStateManager.updateTransaction(
       txMeta,
@@ -1071,8 +1125,9 @@ export default class TransactionController extends EventEmitter {
 
     // set state to signed
     this.txStateManager.setTxStatusSigned(txMeta.id);
-    const rawTx = bufferToHex(signedEthTx.serialize());
-    return rawTx;
+    // const rawTx = bufferToHex(signedEthTx.serialize());
+    // return rawTx;
+    return payload
   }
 
   /**
@@ -1083,6 +1138,9 @@ export default class TransactionController extends EventEmitter {
    * @returns {Promise<void>}
    */
   async publishTransaction(txId, rawTx) {
+    console.log('[Pontem][TransactionController] publishTransaction', {
+      txId, rawTx
+    });
     const txMeta = this.txStateManager.getTransaction(txId);
     txMeta.rawTx = rawTx;
     if (txMeta.type === TRANSACTION_TYPES.SWAP) {
@@ -1095,7 +1153,21 @@ export default class TransactionController extends EventEmitter {
     );
     let txHash;
     try {
-      txHash = await this.query.sendRawTransaction(rawTx);
+      txHash = await (new Promise((resolve, reject) => {
+          this.pontemQuery.submitTransaction(rawTx, (err, response) => {
+            if(err) {
+              reject(err);
+              return;
+            }
+
+            resolve(response.hash);
+          })
+        })
+      );
+
+      console.log('[Pontem][TransactionController] publishTransaction txHash', {
+        txHash
+      });
     } catch (error) {
       if (error.message.toLowerCase().includes('known transaction')) {
         txHash = keccak(toBuffer(addHexPrefix(rawTx), 'hex')).toString('hex');
@@ -1122,6 +1194,9 @@ export default class TransactionController extends EventEmitter {
    * @returns {Promise<void>}
    */
   async confirmTransaction(txId, txReceipt, baseFeePerGas, blockTimestamp) {
+    console.log('[Pontem][TransactionController] confirmTransaction', {
+      txId, txReceipt, baseFeePerGas, blockTimestamp
+    });
     // get the txReceipt before marking the transaction confirmed
     // to ensure the receipt is gotten before the ui revives the tx
     const txMeta = this.txStateManager.getTransaction(txId);
@@ -1131,7 +1206,8 @@ export default class TransactionController extends EventEmitter {
     }
 
     try {
-      const gasUsed = txUtils.normalizeTxReceiptGasUsed(txReceipt.gasUsed);
+      // const gasUsed = txUtils.normalizeTxReceiptGasUsed(txReceipt.gasUsed);
+      const gasUsed = txReceipt.gas_used;
 
       txMeta.txReceipt = {
         ...txReceipt,
@@ -1157,8 +1233,10 @@ export default class TransactionController extends EventEmitter {
         );
       }
 
-      if (txReceipt.status === '0x0') {
+      if (txReceipt.success === false) {
+        console.log('[Pontem][TransactionController] confirmTransaction tx not success');
         metricsParams.status = METRICS_STATUS_FAILED;
+        metricsParams.error = txReceipt.vm_status;
         // metricsParams.error = TODO: figure out a way to get the on-chain failure reason
       }
 

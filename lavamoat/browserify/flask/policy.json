@@ -912,6 +912,99 @@
         "util": true
       }
     },
+    "@starcoin/starcoin": {
+      "globals": {
+        "TextDecoder": true,
+        "TextEncoder": true,
+        "clearInterval": true,
+        "clearTimeout": true,
+        "console.log": true,
+        "console.warn": true,
+        "setInterval": true,
+        "setTimeout": true
+      },
+      "packages": {
+        "@ethersproject/basex": true,
+        "@ethersproject/bignumber": true,
+        "@ethersproject/bytes": true,
+        "@ethersproject/logger": true,
+        "@ethersproject/properties": true,
+        "@ethersproject/sha2": true,
+        "@ethersproject/web": true,
+        "@starcoin/stc-ed25519": true,
+        "bech32": true,
+        "buffer": true,
+        "ethereumjs-util": true,
+        "is-alphabetical": true,
+        "is-alphanumerical": true,
+        "is-decimal": true,
+        "is-hexadecimal": true,
+        "is-whitespace-character": true,
+        "js-sha3": true,
+        "lodash": true,
+        "read-bigint": true,
+        "safe-buffer": true,
+        "ws": true
+      }
+    },
+    "@starcoin/stc-ed25519": {
+      "globals": {
+        "crypto.getRandomValues": true,
+        "crypto.subtle.digest": true
+      },
+      "packages": {
+        "crypto-browserify": true,
+        "process": true
+      }
+    },
+    "@starcoin/stc-hdkey": {
+      "packages": {
+        "@starcoin/stc-util": true,
+        "assert": true,
+        "coinstring": true,
+        "crypto-browserify": true,
+        "safe-buffer": true,
+        "secp256k1": true
+      }
+    },
+    "@starcoin/stc-simple-keyring": {
+      "packages": {
+        "@ethersproject/bytes": true,
+        "@starcoin/starcoin": true,
+        "@starcoin/stc-util": true,
+        "@starcoin/stc-wallet": true,
+        "buffer": true,
+        "eth-sig-util": true,
+        "events": true
+      }
+    },
+    "@starcoin/stc-util": {
+      "globals": {
+        "console.log": true
+      },
+      "packages": {
+        "@starcoin/stc-ed25519": true,
+        "assert": true,
+        "bn.js": true,
+        "create-hash": true,
+        "ethjs-util": true,
+        "js-sha3": true,
+        "keccak": true,
+        "noble-ed25519": true,
+        "rlp": true,
+        "safe-buffer": true,
+        "secp256k1": true
+      }
+    },
+    "@starcoin/stc-wallet": {
+      "globals": {
+        "console.log": true
+      },
+      "packages": {
+        "@starcoin/starcoin": true,
+        "@starcoin/stc-util": true
+      }
+    },
     "@truffle/abi-utils": {
       "packages": {
         "change-case": true,
@@ -1114,6 +1207,7 @@
     },
     "async-mutex": {
       "globals": {
+        "clearTimeout": true,
         "setTimeout": true
       },
       "packages": {
@@ -1314,6 +1408,12 @@
         "bn.js": true,
         "buffer": true,
         "randombytes": true
+      }
+    },
+    "browserify-sha3": {
+      "packages": {
+        "js-sha3": true,
+        "safe-buffer": true
       }
     },
     "browserify-sign": {
@@ -1577,6 +1677,7 @@
     },
     "create-hash": {
       "packages": {
+        "buffer": true,
         "cipher-base": true,
         "inherits": true,
         "md5.js": true,
@@ -1926,6 +2027,8 @@
         "results": "write"
       },
       "packages": {
+        "@metamask/safe-event-emitter": true,
+        "async-mutex": true,
         "await-semaphore": true,
         "eth-json-rpc-middleware": true,
         "eth-query": true,
@@ -2090,6 +2193,7 @@
         "ethjs-util": true,
         "is-buffer": true,
         "keccak": true,
+        "keccakjs": true,
         "rlp": true,
         "safe-buffer": true,
         "secp256k1": true
@@ -2424,6 +2528,7 @@
     "hash-base": {
       "packages": {
         "inherits": true,
+        "readable-stream": true,
         "safe-buffer": true,
         "stream-browserify": true
       }
@@ -2903,6 +3008,12 @@
         "timestamp-nano": true
       }
     },
+    "is-alphanumerical": {
+      "packages": {
+        "is-alphabetical": true,
+        "is-decimal": true
+      }
+    },
     "is-dom": {
       "globals": {
         "Node": true
@@ -3106,6 +3217,11 @@
         "readable-stream": true,
         "safe-buffer": true,
         "stream-browserify": true
+      }
+    },
+    "keccakjs": {
+      "packages": {
+        "browserify-sha3": true
       }
     },
     "latency-monitor": {
@@ -3547,7 +3663,8 @@
         "define": true,
         "document.cookie": true,
         "localStorage": true,
-        "log": "write"
+        "log": "write",
+        "navigator": true
       }
     },
     "logplease": {
@@ -3756,6 +3873,16 @@
         "lower-case": true
       }
     },
+    "noble-ed25519": {
+      "globals": {
+        "crypto": true
+      },
+      "packages": {
+        "browser-resolve": true,
+        "crypto-browserify": true,
+        "process": true
+      }
+    },
     "node-forge": {
       "globals": {
         "Blob": true,
@@ -3800,13 +3927,6 @@
         "buffer": true,
         "stream-browserify": true,
         "util": true
-      }
-    },
-    "nonce-tracker": {
-      "packages": {
-        "assert": true,
-        "await-semaphore": true,
-        "ethjs-query": true
       }
     },
     "number-to-bn": {
@@ -4035,10 +4155,14 @@
     "pbkdf2": {
       "globals": {
         "crypto": true,
-        "process": true
+        "process": true,
+        "queueMicrotask": true,
+        "setImmediate": true,
+        "setTimeout": true
       },
       "packages": {
         "create-hash": true,
+        "is-buffer": true,
         "process": true,
         "ripemd160": true,
         "safe-buffer": true,
@@ -4579,6 +4703,11 @@
         "warning": true
       }
     },
+    "read-bigint": {
+      "packages": {
+        "is-buffer": true
+      }
+    },
     "readable-stream": {
       "packages": {
         "browser-resolve": true,
@@ -4648,6 +4777,7 @@
     },
     "rlp": {
       "packages": {
+        "assert": true,
         "bn.js": true,
         "buffer": true
       }
@@ -4708,6 +4838,7 @@
       "packages": {
         "bip66": true,
         "bn.js": true,
+        "buffer": true,
         "create-hash": true,
         "drbg.js": true,
         "elliptic": true,

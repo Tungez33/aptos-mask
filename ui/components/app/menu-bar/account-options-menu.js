@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAccountLink } from '@metamask/etherscan-link';
 
-import { showModal } from '../../../store/actions';
+import { showModal, requestTokensFor } from '../../../store/actions';
 import { CONNECTED_ROUTE } from '../../../helpers/constants/routes';
 import { getURLHostName } from '../../../helpers/utils/util';
 import { Menu, MenuItem } from '../../ui/menu';
@@ -131,6 +131,16 @@ export default function AccountOptionsMenu({ anchorElement, onClose }) {
         iconClassName="account-options-menu__connected-sites"
       >
         {t('connectedSites')}
+      </MenuItem>
+      <MenuItem
+        data-testid="account-options-menu__request-tokens"
+        onClick={() => {
+          dispatch(requestTokensFor(address));
+          onClose();
+        }}
+        iconClassName="account-options-menu__connected-sites"
+      >
+        Request Tokens
       </MenuItem>
       {isRemovable ? (
         <MenuItem

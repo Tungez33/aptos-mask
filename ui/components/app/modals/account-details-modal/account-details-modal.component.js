@@ -14,6 +14,7 @@ export default class AccountDetailsModal extends Component {
     selectedIdentity: PropTypes.object,
     chainId: PropTypes.string,
     showExportPrivateKeyModal: PropTypes.func,
+    showExportPublicKeyModal: PropTypes.func,
     setAccountLabel: PropTypes.func,
     keyrings: PropTypes.array,
     rpcPrefs: PropTypes.object,
@@ -30,6 +31,7 @@ export default class AccountDetailsModal extends Component {
       selectedIdentity,
       chainId,
       showExportPrivateKeyModal,
+      showExportPublicKeyModal,
       setAccountLabel,
       keyrings,
       rpcPrefs,
@@ -94,6 +96,14 @@ export default class AccountDetailsModal extends Component {
                 getURLHostName(rpcPrefs.blockExplorerUrl),
               ])
             : this.context.t('etherscanViewOn')}
+        </Button>
+
+        <Button
+          type="secondary"
+          className="account-details-modal__button"
+          onClick={() => showExportPublicKeyModal()}
+        >
+          View Public Key
         </Button>
 
         {exportPrivateKeyFeatureEnabled ? (

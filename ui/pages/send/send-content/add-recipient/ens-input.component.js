@@ -109,6 +109,7 @@ export default class EnsInput extends Component {
                 </div>
                 {selectedName !== selectedAddress && (
                   <div className="ens-input__selected-input__subtitle">
+                    {/* TODO cut the address */}
                     {selectedAddress}
                   </div>
                 )}

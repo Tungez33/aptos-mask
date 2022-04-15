@@ -60,6 +60,7 @@ export function tryUnlockMetamask(password) {
     return new Promise((resolve, reject) => {
       background.submitPassword(password, (error) => {
         if (error) {
+          console.log(error);
           reject(error);
           return;
         }
@@ -70,6 +71,20 @@ export function tryUnlockMetamask(password) {
       .then(() => {
         dispatch(unlockSucceeded());
         return forceUpdateMetamaskState(dispatch);
+      })
+      .then(() => {
+        return new Promise((resolve, reject) => {
+          log.debug(`background.verifySeedPhrase`);
+          background.verifySeedPhrase((err) => {
+            if (err) {
+              dispatch(displayWarning(err.message));
+              reject(err);
+              return;
+            }
+
+            resolve();
+          });
+        });
       })
       .then(() => {
         dispatch(hideLoadingIndication());
@@ -1669,7 +1684,7 @@ export function updateProviderType(type) {
 export function updateAndSetCustomRpc(
   newRpc,
   chainId,
-  ticker = 'ETH',
+  ticker = 'APTOS',
   nickname,
   rpcPrefs,
 ) {
@@ -3435,5 +3450,49 @@ export function cancelQRHardwareSignRequest() {
   return async (dispatch) => {
     dispatch(hideLoadingIndication());
     await promisifiedBackground.cancelQRHardwareSignRequest();
+  };
+}
+
+export function getPublicKeyFor(address) {
+  return function (dispatch) {
+    dispatch(showLoadingIndication());
+
+    return new Promise((resolve, reject) => {
+      log.debug(`background.getPublicKeyFor`);
+      background.getPublicKeyFor(address, function (err, result) {
+        dispatch(hideLoadingIndication());
+
+        if (err) {
+          log.error(err);
+          dispatch(displayWarning('Had a problem exporting PublicKey.'));
+          reject(err);
+          return;
+        }
+
+        resolve(result);
+      });
+    });
+  };
+}
+
+export function requestTokensFor(address) {
+  return function (dispatch) {
+    dispatch(showLoadingIndication());
+
+    return new Promise((resolve, reject) => {
+      log.debug(`background.requestTokensFor`);
+      background.requestTokensFor(address, function (err, result) {
+        dispatch(hideLoadingIndication());
+
+        if (err) {
+          log.error(err);
+          dispatch(displayWarning('Faucet temporarily unavailable'));
+          reject(err);
+          return;
+        }
+
+        resolve(result);
+      });
+    });
   };
 }

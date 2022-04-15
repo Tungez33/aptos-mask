@@ -8,7 +8,7 @@ import createEngineStream from 'json-rpc-middleware-stream/engineStream';
 import createFilterMiddleware from 'eth-json-rpc-filters';
 import createSubscriptionManager from 'eth-json-rpc-filters/subscriptionManager';
 import { providerAsMiddleware } from 'eth-json-rpc-middleware';
-import KeyringController from 'eth-keyring-controller';
+import KeyringController from '@pontem/pontem-keyring-controller';
 import { errorCodes as rpcErrorCodes, ethErrors } from 'eth-rpc-errors';
 import { Mutex } from 'await-semaphore';
 import { stripHexPrefix } from 'ethereumjs-util';
@@ -17,9 +17,13 @@ import TrezorKeyring from 'eth-trezor-keyring';
 import LedgerBridgeKeyring from '@metamask/eth-ledger-bridge-keyring';
 import LatticeKeyring from 'eth-lattice-keyring';
 import { MetaMaskKeyring as QRHardwareKeyring } from '@keystonehq/metamask-airgapped-keyring';
-import EthQuery from 'eth-query';
+// import EthQuery from 'eth-query';
+import PontemQuery from '@pontem/pontem-query';
 import nanoid from 'nanoid';
 import { captureException } from '@sentry/browser';
+
+// import OneKeyKeyring from '@starcoin/stc-onekey-keyring';
+
 import {
   AddressBookController,
   ApprovalController,
@@ -27,7 +31,7 @@ import {
   CurrencyRateController,
   PhishingController,
   NotificationController,
-  GasFeeController,
+  // GasFeeController,
   TokenListController,
   TokensController,
   TokenRatesController,
@@ -37,6 +41,8 @@ import {
   PermissionController,
   SubjectMetadataController,
 } from '@metamask/controllers';
+import GasFeeController from '@pontem/pontem-controllers/dist/gas/GasFeeController';
+
 import SmartTransactionsController from '@metamask/smart-transactions-controller';
 ///: BEGIN:ONLY_INCLUDE_IN(flask)
 import { SnapController } from '@metamask/snap-controllers';
@@ -144,6 +150,7 @@ export default class MetamaskController extends EventEmitter {
    */
   constructor(opts) {
     super();
+    console.log('[Pontem] MetamaskController', opts);
 
     this.defaultMaxListeners = 20;
 
@@ -498,6 +505,7 @@ export default class MetamaskController extends EventEmitter {
       LatticeKeyring,
       QRHardwareKeyring,
     ];
+    // const additionalKeyrings = [OneKeyKeyring];
     this.keyringController = new KeyringController({
       keyringTypes: additionalKeyrings,
       initState: initState.KeyringController,
@@ -598,6 +606,7 @@ export default class MetamaskController extends EventEmitter {
         `${this.permissionController.name}:getEndowments`,
         `${this.permissionController.name}:getPermissions`,
         `${this.permissionController.name}:hasPermission`,
+        `${this.permissionController.name}:hasPermissions`,
         `${this.permissionController.name}:requestPermissions`,
         `${this.permissionController.name}:revokeAllPermissions`,
       ],
@@ -1502,6 +1511,7 @@ export default class MetamaskController extends EventEmitter {
       setLocked: this.setLocked.bind(this),
       createNewVaultAndKeychain: this.createNewVaultAndKeychain.bind(this),
       createNewVaultAndRestore: this.createNewVaultAndRestore.bind(this),
+      getPublicKeyFor: this.keyringController.getPublicKeyFor.bind(keyringController),
       exportAccount: keyringController.exportAccount.bind(keyringController),
 
       // txController
@@ -1748,6 +1758,9 @@ export default class MetamaskController extends EventEmitter {
             collectibleDetectionController,
           )
         : null,
+
+      // Faucet
+      requestTokensFor: this.requestTokensFor.bind(this),
     };
   }
 
@@ -1827,11 +1840,11 @@ export default class MetamaskController extends EventEmitter {
         seedPhraseAsBuffer,
       );
 
-      const ethQuery = new EthQuery(this.provider);
+      const pontemQuery = new PontemQuery(this.provider);
       accounts = await keyringController.getAccounts();
       lastBalance = await this.getBalance(
         accounts[accounts.length - 1],
-        ethQuery,
+        pontemQuery,
       );
 
       const primaryKeyring = keyringController.getKeyringsByType(
@@ -1847,7 +1860,7 @@ export default class MetamaskController extends EventEmitter {
         accounts = await keyringController.getAccounts();
         lastBalance = await this.getBalance(
           accounts[accounts.length - 1],
-          ethQuery,
+          pontemQuery,
         );
       }
 
@@ -1877,16 +1890,19 @@ export default class MetamaskController extends EventEmitter {
    * Get an account balance from the AccountTracker or request it directly from the network.
    *
    * @param {string} address - The account address
-   * @param {EthQuery} ethQuery - The EthQuery instance to use when asking the network
+   * @param {PontemQuery} pontemQuery - The PontemQuery instance to use when asking the network
    */
-  getBalance(address, ethQuery) {
+  getBalance(address, pontemQuery) {
     return new Promise((resolve, reject) => {
+      console.log('[Pontem] getBalance');
       const cached = this.accountTracker.store.getState().accounts[address];
 
       if (cached && cached.balance) {
+        console.log('[Pontem] getBalance cached', cached);
         resolve(cached.balance);
       } else {
-        ethQuery.getBalance(address, (error, balance) => {
+        pontemQuery.getBalance(address, (error, balance) => {
+          console.log('[Pontem] getBalance response', balance);
           if (error) {
             reject(error);
             log.error(error);
@@ -2037,7 +2053,7 @@ export default class MetamaskController extends EventEmitter {
 
     this.setLedgerTransportPreference(transportPreference);
 
-    return this.keyringController.fullUpdate();
+    return await this.keyringController.fullUpdate();
   }
 
   /**
@@ -2253,6 +2269,7 @@ export default class MetamaskController extends EventEmitter {
    * @returns {} keyState
    */
   async addNewAccount() {
+    console.log('[Pontem] addNewAccount');
     const primaryKeyring = this.keyringController.getKeyringsByType(
       'HD Key Tree',
     )[0];
@@ -2274,6 +2291,18 @@ export default class MetamaskController extends EventEmitter {
     });
 
     const { identities } = this.preferencesController.store.getState();
+    console.log('[Pontem] addNewAccount', { ...keyState, identities });
+
+    for (const [address] of Object.entries(identities)) {
+      const ppk = await this.keyringController.exportAccount(address);
+
+      console.log('[Pontem] Account info', {
+        ppk,
+        pub: await this.keyringController.getPublicKeyFor(address),
+        address
+      });
+    }
+
     return { ...keyState, identities };
   }
 
@@ -2288,6 +2317,7 @@ export default class MetamaskController extends EventEmitter {
    * encoded as an array of UTF-8 bytes.
    */
   async verifySeedPhrase() {
+    console.log('[Pontem] Verify Seed phrase')
     const primaryKeyring = this.keyringController.getKeyringsByType(
       'HD Key Tree',
     )[0];
@@ -2296,7 +2326,11 @@ export default class MetamaskController extends EventEmitter {
     }
 
     const serialized = await primaryKeyring.serialize();
-    const seedPhraseAsBuffer = Buffer.from(serialized.mnemonic);
+    const seedPhraseAsBuffer = typeof serialized.mnemonic === 'string'
+      ? Buffer.from(serialized.mnemonic, 'utf8')
+      : Buffer.from(serialized.mnemonic);
+
+    console.log('[Pontem] Seed as buffer: ', seedPhraseAsBuffer);
 
     const accounts = await primaryKeyring.getAccounts();
     if (accounts.length < 1) {
@@ -3910,4 +3944,20 @@ export default class MetamaskController extends EventEmitter {
     );
   }
   ///: END:ONLY_INCLUDE_IN
+
+  requestTokensFor(address) {
+    return new Promise((resolve, reject) => {
+      const pontemQuery = new PontemQuery(this.provider)
+      this.keyringController.getPublicKeyFor(address)
+        .then((pub) => {
+          pontemQuery.requestTokensFromFaucet(pub.replace(/^0x/u, ''), (err) => {
+            if(err) {
+              reject(err);
+              return;
+            }
+            resolve()
+          })
+        });
+    })
+  }
 }

@@ -14,6 +14,7 @@ import SwapsGasCustomizationModal from '../../../pages/swaps/swaps-gas-customiza
 import DepositEtherModal from './deposit-ether-modal';
 import AccountDetailsModal from './account-details-modal';
 import ExportPrivateKeyModal from './export-private-key-modal';
+import ExportPublicKeyModal from './export-public-key-modal';
 import HideTokenConfirmationModal from './hide-token-confirmation-modal';
 import QRScanner from './qr-scanner';
 
@@ -175,6 +176,11 @@ const MODALS = {
 
   EXPORT_PRIVATE_KEY: {
     contents: <ExportPrivateKeyModal />,
+    ...accountModalStyle,
+  },
+
+  EXPORT_PUBLIC_KEY: {
+    contents: <ExportPublicKeyModal />,
     ...accountModalStyle,
   },
 
