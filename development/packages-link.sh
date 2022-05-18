@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 
-bash ./packages/pontem-aptos-middleware/link.sh
-bash ./packages/pontem-block-tracker/link.sh
-bash ./packages/pontem-query/link.sh
-bash ./packages/pontem-controllers/link.sh
-bash ./packages/pontem-nonce-tracker/link.sh
-bash ./packages/pontem-hdkey/link.sh
-bash ./packages/pontem-util/link.sh
-bash ./packages/pontem-wallet/link.sh
-bash ./packages/pontem-hd-keyring/link.sh
-bash ./packages/pontem-keyring-controller/link.sh
+SRC_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+PACKAGES_DIR=$SRC_DIR"/../packages"
+
+cd $PACKAGES_DIR/pontem-aptos-middleware && bash ./link.sh
+cd $PACKAGES_DIR/pontem-block-tracker && bash ./link.sh
+cd $PACKAGES_DIR/pontem-query && bash ./link.sh
+cd $PACKAGES_DIR/pontem-controllers && bash ./link.sh
+cd $PACKAGES_DIR/pontem-nonce-tracker && bash ./link.sh
+cd $PACKAGES_DIR/pontem-hdkey && bash ./link.sh
+cd $PACKAGES_DIR/pontem-util && bash ./link.sh
+cd $PACKAGES_DIR/pontem-wallet && bash ./link.sh
+cd $PACKAGES_DIR/pontem-hd-keyring && bash ./link.sh
+cd $PACKAGES_DIR/pontem-keyring-controller && bash ./link.sh
+
+cd $SRC_DIR/..
 
 yarn link @pontem/pontem-aptos-middleware
 yarn link @pontem/pontem-block-tracker
