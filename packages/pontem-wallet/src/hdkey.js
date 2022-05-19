@@ -1,5 +1,5 @@
-const HDKey = require('@pontem/pontem-hdkey')
-// const HDKey = require('@starcoin/stc-hdkey')
+// const HDKey = require('@pontem/pontem-hdkey')
+const HDKey = require('@starcoin/stc-hdkey')
 const Wallet = require('./index.js')
 
 function AptosHDKey() {
