@@ -9,8 +9,9 @@ Before the first run, be sure to build these packages.
 Pay attention to the version of nodejs in each project for build.
 
 ### Run main build
-- Install all dependencies `yarn' in root.
+- Install all dependencies `yarn` in root.
 - Run `yarn setup` for run lavamoat registry.
-- If it first usage, or you added new dependency in code - run `lavamoat:auto` for generating new lock file for every dependency in project. It's a long operation (5-7-10 minutes)
-- Run `yarn start` for development
+- If it first usage, or you added new dependency in code - run `yarn lavamoat:auto` for generating new lock file for every dependency in project. It's a long operation (5-7-10 minutes)
+- For debugging you should install globally `yarn global add remotedev-server`
+- Run `yarn start:dev` for development
 - For more see Readme file.

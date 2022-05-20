@@ -3,8 +3,8 @@ export const RINKEBY = 'rinkeby';
 export const KOVAN = 'kovan';
 export const MAINNET = 'mainnet';
 export const GOERLI = 'goerli';
-export const APTOS = 'aptos'
-export const PONTEM = 'pontem'
+export const APTOS = 'aptos';
+export const PONTEM = 'pontem';
 export const LOCALHOST = 'localhost';
 export const NETWORK_TYPE_RPC = 'rpc';
 
@@ -61,8 +61,8 @@ export const MAINNET_RPC_URL = getRpcUrl({ network: MAINNET });
 export const GOERLI_RPC_URL = getRpcUrl({ network: GOERLI });
 export const LOCALHOST_RPC_URL = 'http://localhost:8545';
 
-export const APTOS_SYMBOL = 'APTOS'
-export const PONTEM_SYMBOL = 'PONTEM'
+export const APTOS_SYMBOL = 'APTOS';
+export const PONTEM_SYMBOL = 'PONTEM';
 export const ETH_SYMBOL = 'ETH';
 export const WETH_SYMBOL = 'WETH';
 export const TEST_ETH_SYMBOL = 'TESTETH';
@@ -83,9 +83,7 @@ export const AVAX_TOKEN_IMAGE_URL = './images/avax-token.png';
 export const INFURA_PROVIDER_TYPES = [];
 export const DEFAULT_PROVIDER_TYPES = [APTOS, PONTEM];
 
-export const TEST_CHAINS = [
-  LOCALHOST_CHAIN_ID,
-];
+export const TEST_CHAINS = [LOCALHOST_CHAIN_ID];
 
 /**
  * Map of all build-in Infura networks to their network and chain IDs.

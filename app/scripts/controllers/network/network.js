@@ -8,15 +8,18 @@ import {
   createSwappableProxy,
   createEventEmitterProxy,
 } from 'swappable-obj-proxy';
+import PontemQuery from '@pontem/pontem-query';
 import {
-  RINKEBY,
+  APTOS,
+  APTOS_CHAIN_ID,
   MAINNET,
   DEFAULT_PROVIDER_TYPES,
   NETWORK_TYPE_RPC,
   NETWORK_TYPE_TO_ID_MAP,
   MAINNET_CHAIN_ID,
-  RINKEBY_CHAIN_ID,
-  INFURA_BLOCKED_KEY, CHAIN_ID_TO_RPC_URL_MAP, CHAIN_ID_TO_TYPE_MAP,
+  INFURA_BLOCKED_KEY,
+  CHAIN_ID_TO_RPC_URL_MAP,
+  CHAIN_ID_TO_TYPE_MAP,
 } from '../../../../shared/constants/network';
 import { SECOND } from '../../../../shared/constants/time';
 import {
@@ -28,7 +31,6 @@ import createMetamaskMiddleware from './createMetamaskMiddleware';
 import createInfuraClient from './createInfuraClient';
 import createJsonRpcClient from './createJsonRpcClient';
 import createAptosRestClient from './createAptosRestClient';
-import PontemQuery from '@pontem/pontem-query';
 
 const env = process.env.METAMASK_ENV;
 const fetchWithTimeout = getFetchWithTimeout(SECOND * 30);
@@ -42,7 +44,7 @@ if (process.env.IN_TEST) {
     nickname: 'Localhost 8545',
   };
 } else if (process.env.METAMASK_DEBUG || env === 'test') {
-  defaultProviderConfigOpts = { type: RINKEBY, chainId: RINKEBY_CHAIN_ID };
+  defaultProviderConfigOpts = { type: APTOS, chainId: APTOS_CHAIN_ID };
 } else {
   defaultProviderConfigOpts = { type: MAINNET, chainId: MAINNET_CHAIN_ID };
 }
@@ -400,19 +402,24 @@ export default class NetworkController extends EventEmitter {
     const predefinedRpcUrl = rpcUrl || CHAIN_ID_TO_RPC_URL_MAP[chainId];
     const network = CHAIN_ID_TO_TYPE_MAP[chainId]
 
-    if(!predefinedRpcUrl) {
+    if (!predefinedRpcUrl) {
       throw new Error(
         `NetworkController - _configureProvider - rpc url is undefined. Network: "${type}". Chain ID: "${chainId}"`,
       );
     }
 
-    if(!network) {
+    if (!network) {
       throw new Error(
         `NetworkController - _configureProvider - network is undefined. Network: "${type}". Chain ID: "${chainId}"`,
       );
     }
 
-    console.log('[Pontem.NetworkController._configureProvider]', { rpcUrl: predefinedRpcUrl, type, chainId, network })
+    console.log('[Pontem.NetworkController._configureProvider]', {
+      rpcUrl: predefinedRpcUrl,
+      type,
+      chainId,
+      network,
+    });
     this._configureStandardProvider(predefinedRpcUrl, chainId, network);
 
     // if (isInfura) {
