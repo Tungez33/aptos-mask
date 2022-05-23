@@ -1,10 +1,10 @@
 {
-  "name": "metamask-crx",
+  "name": "aptosmask-crx",
   "version": "10.11.3",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/metamask-extension.git"
+    "url": "https://github.com/pontem-network/aptos-mask.git"
   },
   "scripts": {
     "setup": "yarn install && yarn setup:postinstall",

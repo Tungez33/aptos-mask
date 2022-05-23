@@ -12,11 +12,11 @@
     "message": "વિગતવાર"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "AptosMask",
     "description": "The name of the application"
   },
   "appNameBeta": {
-    "message": "MetaMask Beta",
+    "message": "AptosMask Beta",
     "description": "The name of the application (Beta)"
   },
   "appNameFlask": {
