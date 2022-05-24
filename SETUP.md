@@ -3,7 +3,14 @@
 ### Install & Link dependencies of packages
 - Go to `./packages` and in each folder run `yarn` command.
 - Run `./development/packages-link.sh` script. This will create all npm links between packages and main package.
-- Packages `pontem-block-tracker`, `pontem-controllers`, `pontem-nonce-tracker`, `pontem-util` and `pontem-wallet` need to be built in order for the changes to be applied in the main project.
+- Packages in list need to be built in order for the changes to be applied in the main project.:
+  - `pontem-block-tracker`
+  - `pontem-controllers`
+  - `pontem-nonce-tracker`
+  - `pontem-util`
+  - `pontem-providers`
+  - `pontem-json-rpc-middleware`
+  - `pontem-wallet`
 
 Before the first run, be sure to build these packages.
 Pay attention to the version of nodejs in each project for build.
