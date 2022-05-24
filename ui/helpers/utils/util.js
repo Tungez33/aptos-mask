@@ -10,7 +10,8 @@ import { addHexPrefix } from '../../../app/scripts/lib/util';
 import {
   LOCALHOST_CHAIN_ID,
   MAINNET_CHAIN_ID,
-  PONTEM_CHAIN_ID
+  // PONTEM_CHAIN_ID,
+  APTOS_CHAIN_ID,
 } from '../../../shared/constants/network';
 import { toChecksumHexAddress } from '../../../shared/modules/hexstring-utils';
 import {
@@ -51,7 +52,8 @@ export function isDefaultMetaMaskChain(chainId) {
   if (
     !chainId ||
     chainId === MAINNET_CHAIN_ID ||
-    chainId === PONTEM_CHAIN_ID ||
+    // chainId === PONTEM_CHAIN_ID ||
+    chainId === APTOS_CHAIN_ID ||
     chainId === LOCALHOST_CHAIN_ID
   ) {
     return true;
@@ -597,7 +599,6 @@ export function coinTypeToProtocolName(coinType) {
  *
  * @param {string} [address] - address to checksum
  * @returns {string} checksummed address
- *
  */
 export function checksumAddress(address) {
   const checksummed = address ? stcUtil.toChecksumAddress(address) : '';
