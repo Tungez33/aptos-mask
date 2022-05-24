@@ -110,7 +110,7 @@ export class TypedMessageManager extends AbstractMessageManager<
           case 'rejected':
             return reject(
               new Error(
-                'MetaMask Typed Message Signature: User denied message signature.',
+                'AptosMask Typed Message Signature: User denied message signature.',
               ),
             );
           case 'errored':

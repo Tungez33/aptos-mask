@@ -81,7 +81,7 @@ export default class MessageManager extends EventEmitter {
           case 'rejected':
             return reject(
               ethErrors.provider.userRejectedRequest(
-                'MetaMask Message Signature: User denied message signature.',
+                'AptosMask Message Signature: User denied message signature.',
               ),
             );
           case 'errored':

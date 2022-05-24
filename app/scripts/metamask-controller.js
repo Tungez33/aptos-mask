@@ -1143,7 +1143,7 @@ export default class MetamaskController extends EventEmitter {
     const providerOpts = {
       static: {
         eth_syncing: false,
-        web3_clientVersion: `MetaMask/v${version}`,
+        web3_clientVersion: `AptosMask/v${version}`,
       },
       version,
       // account mgmt
@@ -1235,7 +1235,7 @@ export default class MetamaskController extends EventEmitter {
   /**
    * Gets network state relevant for external providers.
    *
-   * @param {Object} [memState] - The MetaMask memState. If not provided,
+   * @param {Object} [memState] - The AptosMask memState. If not provided,
    * this function will retrieve the most recent state.
    * @returns {Object} An object with relevant network state properties.
    */
@@ -1512,7 +1512,9 @@ export default class MetamaskController extends EventEmitter {
       setLocked: this.setLocked.bind(this),
       createNewVaultAndKeychain: this.createNewVaultAndKeychain.bind(this),
       createNewVaultAndRestore: this.createNewVaultAndRestore.bind(this),
-      getPublicKeyFor: this.keyringController.getPublicKeyFor.bind(keyringController),
+      getPublicKeyFor: this.keyringController.getPublicKeyFor.bind(
+        keyringController,
+      ),
       exportAccount: keyringController.exportAccount.bind(keyringController),
 
       // txController
@@ -2128,7 +2130,7 @@ export default class MetamaskController extends EventEmitter {
       keyring.setHdPath(hdPath);
     }
     if (deviceName === DEVICE_NAMES.LATTICE) {
-      keyring.appName = 'MetaMask';
+      keyring.appName = 'AptosMask';
     }
     if (deviceName === DEVICE_NAMES.TREZOR) {
       const model = keyring.getModel();
@@ -2300,7 +2302,7 @@ export default class MetamaskController extends EventEmitter {
       console.log('[Pontem] Account info', {
         ppk,
         pub: await this.keyringController.getPublicKeyFor(address),
-        address
+        address,
       });
     }
 
@@ -2318,7 +2320,7 @@ export default class MetamaskController extends EventEmitter {
    * encoded as an array of UTF-8 bytes.
    */
   async verifySeedPhrase() {
-    console.log('[Pontem] Verify Seed phrase')
+    console.log('[Pontem] Verify Seed phrase');
     const primaryKeyring = this.keyringController.getKeyringsByType(
       'HD Key Tree',
     )[0];
@@ -2327,9 +2329,10 @@ export default class MetamaskController extends EventEmitter {
     }
 
     const serialized = await primaryKeyring.serialize();
-    const seedPhraseAsBuffer = typeof serialized.mnemonic === 'string'
-      ? Buffer.from(serialized.mnemonic, 'utf8')
-      : Buffer.from(serialized.mnemonic);
+    const seedPhraseAsBuffer =
+      typeof serialized.mnemonic === 'string'
+        ? Buffer.from(serialized.mnemonic, 'utf8')
+        : Buffer.from(serialized.mnemonic);
 
     console.log('[Pontem] Seed as buffer: ', seedPhraseAsBuffer);
 
@@ -2894,7 +2897,7 @@ export default class MetamaskController extends EventEmitter {
    * ).CustomGasSettings} [customGasSettings] - overrides to use for gas params
    *  instead of allowing this method to generate them
    * @param newTxMetaProps
-   * @returns {Object} MetaMask state
+   * @returns {Object} AptosMask state
    */
   async createCancelTransaction(
     originalTxId,
@@ -2921,7 +2924,7 @@ export default class MetamaskController extends EventEmitter {
    * ).CustomGasSettings} [customGasSettings] - overrides to use for gas params
    *  instead of allowing this method to generate them
    * @param newTxMetaProps
-   * @returns {Object} MetaMask state
+   * @returns {Object} AptosMask state
    */
   async createSpeedUpTransaction(
     originalTxId,
@@ -3016,7 +3019,7 @@ export default class MetamaskController extends EventEmitter {
       const { hostname } = new URL(sender.url);
       // Check if new connection is blocked if phishing detection is on
       if (usePhishDetect && this.phishingController.test(hostname)) {
-        log.debug('MetaMask - sending phishing warning for', hostname);
+        log.debug('AptosMask - sending phishing warning for', hostname);
         this.sendPhishingWarning(connectionStream, hostname);
         return;
       }
@@ -3602,7 +3605,7 @@ export default class MetamaskController extends EventEmitter {
   // misc
 
   /**
-   * A method for emitting the full MetaMask state to all registered listeners.
+   * A method for emitting the full AptosMask state to all registered listeners.
    *
    * @private
    */
@@ -3861,7 +3864,7 @@ export default class MetamaskController extends EventEmitter {
   // TODO: Replace isClientOpen methods with `controllerConnectionChanged` events.
   /* eslint-disable accessor-pairs */
   /**
-   * A method for recording whether the MetaMask user interface is open or not.
+   * A method for recording whether the AptosMask user interface is open or not.
    *
    * @param {boolean} open
    */
@@ -3948,17 +3951,16 @@ export default class MetamaskController extends EventEmitter {
 
   requestTokensFor(address) {
     return new Promise((resolve, reject) => {
-      const pontemQuery = new PontemQuery(this.provider)
-      this.keyringController.getPublicKeyFor(address)
-        .then((pub) => {
-          pontemQuery.requestTokensFromFaucet(pub.replace(/^0x/u, ''), (err) => {
-            if(err) {
-              reject(err);
-              return;
-            }
-            resolve()
-          })
+      const pontemQuery = new PontemQuery(this.provider);
+      this.keyringController.getPublicKeyFor(address).then((pub) => {
+        pontemQuery.requestTokensFromFaucet(pub.replace(/^0x/u, ''), (err) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve();
         });
-    })
+      });
+    });
   }
 }

@@ -11,7 +11,7 @@ const { ensureXServerIsRunning } = require('./x-server');
 const ganacheServer = new Ganache();
 const dappPort = 8080;
 
-describe('MetaMask', function () {
+describe('AptosMask', function () {
   let driver;
   let dappServer;
   let tokenAddress;
@@ -328,7 +328,7 @@ describe('MetaMask', function () {
     });
   });
 
-  describe('Send token from inside MetaMask', function () {
+  describe('Send token from inside AptosMask', function () {
     it('starts to send a transaction', async function () {
       await driver.clickElement('[data-testid="eth-overview-send"]');
       await driver.delay(regularDelayMs);

@@ -35,7 +35,7 @@ describe('Permissions', function () {
         const windowHandles = await driver.getAllWindowHandles();
         const extension = windowHandles[0];
         await driver.switchToWindowWithTitle(
-          'MetaMask Notification',
+          'AptosMask Notification',
           windowHandles,
         );
         await driver.clickElement({

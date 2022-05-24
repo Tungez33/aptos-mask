@@ -1,7 +1,7 @@
 # PermissionController
 
 The `PermissionController` is the heart of an object capability-inspired permission system.
-It is the successor of the original MetaMask permission system, [`rpc-cap`](https://github.com/MetaMask/rpc-cap).
+It is the successor of the original AptosMask permission system, [`rpc-cap`](https://github.com/MetaMask/rpc-cap).
 
 ## Conceptual Overview
 
@@ -16,13 +16,13 @@ Permissions can have **caveats**, which are host-defined attenuations of the aut
 
 ## Implementation Overview
 
-At any given moment, the `PermissionController` state tree describes the complete state of the permissions of all subjects known to the host (i.e., the MetaMask instance).
+At any given moment, the `PermissionController` state tree describes the complete state of the permissions of all subjects known to the host (i.e., the AptosMask instance).
 The `PermissionController` also provides methods for adding, updating, and removing permissions, and enforcing the rules described by its state tree.
-Permission system concepts correspond to components of the MetaMask stack as follows:
+Permission system concepts correspond to components of the AptosMask stack as follows:
 
 | Concept           | Implementation                                                  |
 | :---------------- | :-------------------------------------------------------------- |
-| Host              | The MetaMask application                                        |
+| Host              | The AptosMask application                                        |
 | Subjects          | Websites, Snaps, or other extensions                            |
 | Targets           | JSON-RPC methods, endowments                                    |
 | Invocations       | JSON-RPC requests, endowment retrieval                          |

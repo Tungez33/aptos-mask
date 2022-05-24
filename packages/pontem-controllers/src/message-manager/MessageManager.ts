@@ -84,7 +84,7 @@ export class MessageManager extends AbstractMessageManager<
           case 'rejected':
             return reject(
               new Error(
-                'MetaMask Message Signature: User denied message signature.',
+                'AptosMask Message Signature: User denied message signature.',
               ),
             );
           default:

@@ -1,6 +1,6 @@
-# Welcome to MetaMask!
+# Welcome to AptosMask!
 
-If you're submitting code to MetaMask, there are some simple things we'd appreciate you doing to help us stay organized!
+If you're submitting code to AptosMask, there are some simple things we'd appreciate you doing to help us stay organized!
 
 ### Finding the right project
 
