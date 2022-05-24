@@ -46,7 +46,8 @@ if (process.env.IN_TEST) {
 } else if (process.env.METAMASK_DEBUG || env === 'test') {
   defaultProviderConfigOpts = { type: APTOS, chainId: APTOS_CHAIN_ID };
 } else {
-  defaultProviderConfigOpts = { type: MAINNET, chainId: MAINNET_CHAIN_ID };
+  // defaultProviderConfigOpts = { type: MAINNET, chainId: MAINNET_CHAIN_ID };
+  defaultProviderConfigOpts = { type: APTOS, chainId: APTOS_CHAIN_ID };
 }
 
 const defaultProviderConfig = {
@@ -400,7 +401,7 @@ export default class NetworkController extends EventEmitter {
 
   _configureProvider({ type, rpcUrl, chainId }) {
     const predefinedRpcUrl = rpcUrl || CHAIN_ID_TO_RPC_URL_MAP[chainId];
-    const network = CHAIN_ID_TO_TYPE_MAP[chainId]
+    const network = CHAIN_ID_TO_TYPE_MAP[chainId];
 
     if (!predefinedRpcUrl) {
       throw new Error(
