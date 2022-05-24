@@ -14,6 +14,12 @@ const normalizers = {
   nonce: addHexPrefix,
   value: addHexPrefix,
   data: addHexPrefix,
+  payload: (payload) => ({
+    arguments: payload.arguments,
+    function: payload.function,
+    type: payload.type,
+    type_arguments: payload.type_arguments || payload.typeArguments
+  }),
   gas: addHexPrefix,
   gasPrice: addHexPrefix,
   maxFeePerGas: addHexPrefix,
@@ -137,7 +143,7 @@ export function validateTxParams(txParams, eip1559Compatibility = true) {
       'Invalid transaction params: must be an object.',
     );
   }
-  if (!txParams.to && !txParams.data) {
+  if (!txParams.to && !txParams.data && !txParams.payload) {
     throw ethErrors.rpc.invalidParams(
       'Invalid transaction params: must specify "data" for contract deployments, or "to" (and optionally "data") for all other types of transactions.',
     );
@@ -219,6 +225,8 @@ export function validateTxParams(txParams, eip1559Compatibility = true) {
             `Invalid transaction params: ${key} is not a Number or hex string. got: (${value})`,
           );
         }
+        break;
+      case 'payload':
         break;
       default:
         ensureFieldIsString(txParams, key);

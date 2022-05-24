@@ -17,15 +17,15 @@ const inpageContent = fs.readFileSync(
 const inpageSuffix = `//# sourceURL=${extension.runtime.getURL('inpage.js')}\n`;
 const inpageBundle = inpageContent + inpageSuffix;
 
-const CONTENT_SCRIPT = 'metamask-contentscript';
-const INPAGE = 'metamask-inpage';
-const PROVIDER = 'metamask-provider';
+const CONTENT_SCRIPT = 'aptosmask-contentscript';
+const INPAGE = 'aptosmask-inpage';
+const PROVIDER = 'aptosmask-provider';
 
 // TODO:LegacyProvider: Delete
-const LEGACY_CONTENT_SCRIPT = 'contentscript';
-const LEGACY_INPAGE = 'inpage';
-const LEGACY_PROVIDER = 'provider';
-const LEGACY_PUBLIC_CONFIG = 'publicConfig';
+const LEGACY_CONTENT_SCRIPT = 'legacy-contentscript';
+const LEGACY_INPAGE = 'legacy-inpage';
+const LEGACY_PROVIDER = 'legacy-provider';
+const LEGACY_PUBLIC_CONFIG = 'legacy-publicConfig';
 
 if (shouldInjectProvider()) {
   injectScript(inpageBundle);

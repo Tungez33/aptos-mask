@@ -6,7 +6,7 @@ import {
   createInflightCacheMiddleware,
   createBlockTrackerInspectorMiddleware,
   providerFromMiddleware,
-} from 'eth-json-rpc-middleware';
+} from '@pontem/pontem-json-rpc-middleware';
 
 import { createFetchMiddleware } from '@pontem/pontem-aptos-middleware';
 import { PollingBlockTracker } from '@pontem/pontem-block-tracker';

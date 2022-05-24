@@ -33,7 +33,7 @@ cleanContextForImports();
 /* eslint-disable import/first */
 import log from 'loglevel';
 import { WindowPostMessageStream } from '@metamask/post-message-stream';
-import { initializeProvider } from '@metamask/providers/dist/initializeInpageProvider';
+import { initializeProvider } from '@pontem/pontem-providers/dist/initializeInpageProvider';
 
 restoreContextAfterImports();
 
@@ -45,12 +45,13 @@ log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn');
 
 // setup background connection
 const metamaskStream = new WindowPostMessageStream({
-  name: 'metamask-inpage',
-  target: 'metamask-contentscript',
+  name: 'aptosmask-inpage',
+  target: 'aptosmask-contentscript',
 });
 
 initializeProvider({
   connectionStream: metamaskStream,
   logger: log,
+  jsonRpcStreamName: 'aptosmask-provider',
   shouldShimWeb3: true,
 });
