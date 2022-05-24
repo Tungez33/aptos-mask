@@ -30,8 +30,5 @@ yarn link @pontem/pontem-wallet
 yarn link @pontem/pontem-hd-keyring
 yarn link @pontem/pontem-keyring-controller
 yarn link @pontem/pontem-json-rpc-middleware
-yarn link @pontem/pontem-providers
-#yarn link @pontem/pontem-json-rpc-filters
-yarn link @pontem/pontem-json-rpc-middleware
-yarn link @pontem/pontem-providers
 yarn link @pontem/pontem-json-rpc-filters
+yarn link @pontem/pontem-providers
