@@ -355,7 +355,7 @@ class NetworkDropdown extends Component {
 
         <div className="network-dropdown-list">
           {this.renderNetworkEntry('aptos')}
-          {this.renderNetworkEntry('pontem')}
+          {/* {this.renderNetworkEntry('pontem')} */}
 
           {this.renderCustomRpcList(
             rpcListDetailWithoutLocalHost,
