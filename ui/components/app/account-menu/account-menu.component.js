@@ -4,8 +4,8 @@ import { debounce } from 'lodash';
 import Fuse from 'fuse.js';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import classnames from 'classnames';
-import { ENVIRONMENT_TYPE_POPUP } from '../../../../shared/constants/app';
-import { getEnvironmentType } from '../../../../app/scripts/lib/util';
+// import { ENVIRONMENT_TYPE_POPUP } from '../../../../shared/constants/app';
+// import { getEnvironmentType } from '../../../../app/scripts/lib/util';
 import Identicon from '../../ui/identicon';
 import SiteIcon from '../../ui/site-icon';
 import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display';
@@ -20,7 +20,7 @@ import {
   SETTINGS_ROUTE,
   NEW_ACCOUNT_ROUTE,
   IMPORT_ACCOUNT_ROUTE,
-  CONNECT_HARDWARE_ROUTE,
+  // CONNECT_HARDWARE_ROUTE,
   DEFAULT_ROUTE,
 } from '../../../helpers/constants/routes';
 import TextField from '../../ui/text-field';
@@ -374,7 +374,7 @@ export default class AccountMenu extends Component {
           }
           text={t('importAccount')}
         />
-        <AccountMenuItem
+        {/* <AccountMenuItem
           onClick={() => {
             toggleAccountMenu();
             metricsEvent({
@@ -398,7 +398,7 @@ export default class AccountMenu extends Component {
             />
           }
           text={t('connectHardwareWallet')}
-        />
+        /> */}
         <div className="account-menu__divider" />
         <AccountMenuItem
           onClick={() => {
