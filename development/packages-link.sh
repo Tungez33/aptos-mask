@@ -13,6 +13,9 @@ cd $PACKAGES_DIR/pontem-util && bash ./link.sh
 cd $PACKAGES_DIR/pontem-wallet && bash ./link.sh
 cd $PACKAGES_DIR/pontem-hd-keyring && bash ./link.sh
 cd $PACKAGES_DIR/pontem-keyring-controller && bash ./link.sh
+cd $PACKAGES_DIR/pontem-json-rpc-middleware && bash ./link.sh
+cd $PACKAGES_DIR/pontem-json-rpc-filters && bash ./link.sh
+cd $PACKAGES_DIR/pontem-providers && bash ./link.sh
 
 cd $SRC_DIR/..
 
@@ -26,3 +29,6 @@ yarn link @pontem/pontem-util
 yarn link @pontem/pontem-wallet
 yarn link @pontem/pontem-hd-keyring
 yarn link @pontem/pontem-keyring-controller
+yarn link @pontem/pontem-json-rpc-middleware
+yarn link @pontem/pontem-json-rpc-filters
+yarn link @pontem/pontem-providers

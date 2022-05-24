@@ -13,6 +13,7 @@ import { errorCodes as rpcErrorCodes, ethErrors } from 'eth-rpc-errors';
 import { Mutex } from 'await-semaphore';
 import { stripHexPrefix } from 'ethereumjs-util';
 import log from 'loglevel';
+
 import TrezorKeyring from 'eth-trezor-keyring';
 import LedgerBridgeKeyring from '@metamask/eth-ledger-bridge-keyring';
 import LatticeKeyring from 'eth-lattice-keyring';
@@ -3029,7 +3030,7 @@ export default class MetamaskController extends EventEmitter {
 
     // messages between inpage and background
     this.setupProviderConnection(
-      mux.createStream('metamask-provider'),
+      mux.createStream('aptosmask-provider'),
       sender,
       _subjectType,
     );
@@ -3037,7 +3038,7 @@ export default class MetamaskController extends EventEmitter {
     // TODO:LegacyProvider: Delete
     if (sender.url) {
       // legacy streams
-      this.setupPublicConfig(mux.createStream('publicConfig'));
+      this.setupPublicConfig(mux.createStream('legacy-publicConfig'));
     }
   }
 

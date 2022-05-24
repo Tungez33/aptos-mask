@@ -3696,6 +3696,7 @@
     },
     "md5.js": {
       "packages": {
+        "buffer": true,
         "hash-base": true,
         "inherits": true,
         "safe-buffer": true

@@ -978,9 +978,6 @@
       }
     },
     "@starcoin/stc-wallet": {
-      "globals": {
-        "console.log": true
-      },
       "packages": {
         "@starcoin/starcoin": true,
         "@starcoin/stc-util": true
@@ -2008,8 +2005,6 @@
         "results": "write"
       },
       "packages": {
-        "@metamask/safe-event-emitter": true,
-        "async-mutex": true,
         "await-semaphore": true,
         "eth-json-rpc-middleware": true,
         "eth-query": true,
@@ -3701,6 +3696,7 @@
     },
     "md5.js": {
       "packages": {
+        "buffer": true,
         "hash-base": true,
         "inherits": true,
         "safe-buffer": true
