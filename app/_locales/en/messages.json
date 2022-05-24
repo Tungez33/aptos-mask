@@ -227,7 +227,7 @@
     "message": "Amount"
   },
   "appDescription": {
-    "message": "An Aptos Wallet in your Browser",
+    "message": "An Aptos Wallet in your Browser. Experimental Software.",
     "description": "The description of the application"
   },
   "appName": {
