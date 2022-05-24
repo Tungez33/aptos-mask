@@ -10,6 +10,7 @@ import extension from 'extensionizer';
 import Eth from 'ethjs';
 import StreamProvider from 'web3-stream-provider';
 import log from 'loglevel';
+import PontemQuery from '@pontem/pontem-query';
 import launchMetaMaskUi from '../../ui';
 import {
   ENVIRONMENT_TYPE_FULLSCREEN,
@@ -19,7 +20,6 @@ import ExtensionPlatform from './platforms/extension';
 import { setupMultiplex } from './lib/stream-utils';
 import { getEnvironmentType } from './lib/util';
 import metaRPCClientFactory from './lib/metaRPCClientFactory';
-import PontemQuery from '@pontem/pontem-query';
 
 start().catch(log.error);
 
@@ -39,7 +39,7 @@ async function start() {
 
   function displayCriticalError(container, err) {
     container.innerHTML =
-      '<div class="critical-error">The MetaMask app failed to load: please open and close MetaMask again to restart.</div>';
+      '<div class="critical-error">The AptosMask app failed to load: please open and close AptosMask again to restart.</div>';
     container.style.height = '80px';
     log.error(err.stack);
     throw err;
@@ -107,7 +107,7 @@ function initializeUi(activeTab, container, connectionStream, cb) {
   // Add Pontem logger
   global.__log = (...args) => {
     console.log('[Pontem]', ...args);
-  }
+  };
 }
 
 /**

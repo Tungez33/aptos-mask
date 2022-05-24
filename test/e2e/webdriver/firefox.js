@@ -12,7 +12,7 @@ const { version } = require('../../../package.json');
  *
  * @type {string}
  */
-const TEMP_PROFILE_PATH_PREFIX = path.join(os.tmpdir(), 'MetaMask-Fx-Profile');
+const TEMP_PROFILE_PATH_PREFIX = path.join(os.tmpdir(), 'AptosMask-Fx-Profile');
 
 /**
  * Proxy host to use for HTTPS requests

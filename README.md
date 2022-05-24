@@ -1,16 +1,16 @@
-# MetaMask Browser Extension
+# AptosMask Browser Extension
 
-You can find the latest version of MetaMask on [our official website](https://metamask.io/). For help using MetaMask, visit our [User Support Site](https://metamask.zendesk.com/hc/en-us).
+You can find the latest version of AptosMask on [our official website](https://metamask.io/). For help using AptosMask, visit our [User Support Site](https://metamask.zendesk.com/hc/en-us).
 
 For [general questions](https://community.metamask.io/c/learn/26), [feature requests](https://community.metamask.io/c/feature-requests-ideas/13), or [developer questions](https://community.metamask.io/c/developer-questions/11), visit our [Community Forum](https://community.metamask.io/).
 
-MetaMask supports Firefox, Google Chrome, and Chromium-based browsers. We recommend using the latest available browser version.
+AptosMask supports Firefox, Google Chrome, and Chromium-based browsers. We recommend using the latest available browser version.
 
 For up to the minute news, follow our [Twitter](https://twitter.com/metamask) or [Medium](https://medium.com/metamask) pages.
 
-To learn how to develop MetaMask-compatible applications, visit our [Developer Docs](https://metamask.github.io/metamask-docs/).
+To learn how to develop AptosMask-compatible applications, visit our [Developer Docs](https://metamask.github.io/metamask-docs/).
 
-To learn how to contribute to the MetaMask project itself, visit our [Internal Docs](https://github.com/MetaMask/metamask-extension/tree/develop/docs).
+To learn how to contribute to the AptosMask project itself, visit our [Internal Docs](https://github.com/AptosMask/metamask-extension/tree/develop/docs).
 
 ## Building locally
 
@@ -42,7 +42,7 @@ To start the [Redux DevTools Extension](https://github.com/reduxjs/redux-devtool
 - Install the Redux Devtools extension.
 - Open the Redux DevTools extension and check the "Use custom (local) server" checkbox in the Remote DevTools Settings, using the default server configuration (host `localhost`, port `8000`, secure connection checkbox unchecked).
 
-Then run the command `yarn devtools:redux` with a development build installed in a browser. This will enable you to use the Redux DevTools extension to inspect MetaMask.
+Then run the command `yarn devtools:redux` with a development build installed in a browser. This will enable you to use the Redux DevTools extension to inspect AptosMask.
 
 To create a development build and run both of these tools simultaneously, run `yarn start:dev`.
 
@@ -94,7 +94,7 @@ Whenever you change dependencies (adding, removing, or updating, either in `pack
 
 - [How to add custom build to Chrome](./docs/add-to-chrome.md)
 - [How to add custom build to Firefox](./docs/add-to-firefox.md)
-- [How to add a new translation to MetaMask](./docs/translating-guide.md)
+- [How to add a new translation to AptosMask](./docs/translating-guide.md)
 - [Publishing Guide](./docs/publishing.md)
 - [How to use the TREZOR emulator](./docs/trezor-emulator.md)
 - [How to generate a visualization of this repository's development](./development/gource-viz.sh)

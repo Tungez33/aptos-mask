@@ -33,7 +33,7 @@
     "message": "dnevnik aktivnosti"
   },
   "addAcquiredTokens": {
-    "message": "Dodajte stečene tokene koristeći MetaMask."
+    "message": "Dodajte stečene tokene koristeći AptosMask."
   },
   "addAlias": {
     "message": "Dodaj pseudonim"
@@ -75,7 +75,7 @@
     "description": "The name of the application (Beta)"
   },
   "appNameFlask": {
-    "message": "MetaMask Flask",
+    "message": "AptosMask Flask",
     "description": "The name of the application (Flask)"
   },
   "approve": {
@@ -103,7 +103,7 @@
     "message": "Tajmer za automatsko odjavljivanje (u minutama)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Podesite vreme mirovanja u minutima pre nego što se MetaMask automatski odjavi. "
+    "message": "Podesite vreme mirovanja u minutima pre nego što se AptosMask automatski odjavi. "
   },
   "average": {
     "message": "Prosečno"
@@ -115,7 +115,7 @@
     "message": "Povratak na Sve"
   },
   "backupApprovalInfo": {
-    "message": "Potreban je tajni kôd za oporavak vašeg novčanika u slučaju da izgubite uređaj, zaboravite lozinku, morate ponovo da instalirate MetaMask ili želite da pristupite novčaniku sa drugog uređaja."
+    "message": "Potreban je tajni kôd za oporavak vašeg novčanika u slučaju da izgubite uređaj, zaboravite lozinku, morate ponovo da instalirate AptosMask ili želite da pristupite novčaniku sa drugog uređaja."
   },
   "backupApprovalNotice": {
     "message": "Napravite rezervnu kopiju tajnog kôda za oporavak da bi vaš novčanik i sredstva bili bezbedni."
@@ -146,7 +146,7 @@
     "message": "Kupite ETH preko servisa Wyre"
   },
   "buyWithWyreDescription": {
-    "message": "Wyre vam dozvoljava da koristite kreditnu karticu kako biste deponovali ETH pravo na vaš MetaMask nalog."
+    "message": "Wyre vam dozvoljava da koristite kreditnu karticu kako biste deponovali ETH pravo na vaš AptosMask nalog."
   },
   "bytes": {
     "message": "Bajtovi"
@@ -161,7 +161,7 @@
     "message": "Otkazano"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "Da biste se povezali sa Vašim hardverskim novčanikom morate da koristite MetaMask na Google Chrome-u."
+    "message": "Da biste se povezali sa Vašim hardverskim novčanikom morate da koristite AptosMask na Google Chrome-u."
   },
   "clickToRevealSeed": {
     "message": "Kliknite ovde kako biste otkrili tajne reči"
@@ -200,7 +200,7 @@
     "message": "Povezuje se na test mrežu Kovan"
   },
   "connectingToMainnet": {
-    "message": "Povezuje se na glavnu Ethereum mrežu"
+    "message": "Povezuje se na glavnu Aptos mrežu"
   },
   "connectingToRinkeby": {
     "message": "Poezivanje na Rinkeby Test mrežu"
@@ -320,19 +320,19 @@
     "message": "Nikada ne delite frazu ni sa kim."
   },
   "endOfFlowMessage5": {
-    "message": "Čuvajte se pecanja (krađe podataka)! MetaMask nikad neće spontano tražiti vašu šifru za oporavak naloga (seed phrase)."
+    "message": "Čuvajte se pecanja (krađe podataka)! AptosMask nikad neće spontano tražiti vašu šifru za oporavak naloga (seed phrase)."
   },
   "endOfFlowMessage6": {
     "message": "Ako treba ponovo da izradite rezervnu kopiju svoje početne fraze, možete je pronaći u Postavke -> Bezbednost."
   },
   "endOfFlowMessage8": {
-    "message": "MetaMask ne može da oporavi vašu početnu frazu. Saznajte više."
+    "message": "AptosMask ne može da oporavi vašu početnu frazu. Saznajte više."
   },
   "endOfFlowMessage9": {
     "message": "Saznajte više."
   },
   "ensNotFoundOnCurrentNetwork": {
-    "message": "ENS ime nije nađeno na trenutnoj mreži. Probajte da se prebacite na glavnu Ethereum mrežu."
+    "message": "ENS ime nije nađeno na trenutnoj mreži. Probajte da se prebacite na glavnu Aptos mrežu."
   },
   "ensRegistrationError": {
     "message": "Greška u registraciji ENS imena."
@@ -434,7 +434,7 @@
     "message": "Povežite hardverski novčanik"
   },
   "hardwareWalletsMsg": {
-    "message": "Izaberite hardverski novčanik koji biste voleli da koristite sa MetaMask-om"
+    "message": "Izaberite hardverski novčanik koji biste voleli da koristite sa AptosMask-om"
   },
   "here": {
     "message": "ovde",
@@ -460,7 +460,7 @@
     "message": "Uvezite nalog"
   },
   "importAccountMsg": {
-    "message": "Uvezeni nalozi neće biti povezani sa početnom frazom koju ste prvobitno kreirali za MetaMask nalog. Saznajte više o uvezenim nalozima."
+    "message": "Uvezeni nalozi neće biti povezani sa početnom frazom koju ste prvobitno kreirali za AptosMask nalog. Saznajte više o uvezenim nalozima."
   },
   "importAccountSeedPhrase": {
     "message": "Uvezi račun sa frazom početnih vrednosti"
@@ -543,7 +543,7 @@
     "message": "Odjavi se"
   },
   "mainnet": {
-    "message": "Glavna Ethereum mreža"
+    "message": "Glavna Aptos mreža"
   },
   "max": {
     "message": "Maksimum"
@@ -555,10 +555,10 @@
     "message": "Poruka"
   },
   "metamaskDescription": {
-    "message": "Povezivanje na Ethereum i decentralizovani veb."
+    "message": "Povezivanje na Aptos i decentralizovani veb."
   },
   "metamaskVersion": {
-    "message": "MetaMask verzija"
+    "message": "AptosMask verzija"
   },
   "mustSelectOne": {
     "message": "Morate izabrati najmanje 1 token."
@@ -602,7 +602,7 @@
     "message": "Nova lozinka (minimalno 8 karaktera)"
   },
   "newToMetaMask": {
-    "message": "Novi ste u MetaMask-u?"
+    "message": "Novi ste u AptosMask-u?"
   },
   "newTotal": {
     "message": "Novi zbir"
@@ -656,7 +656,7 @@
     "message": "Učestvujte u MetaMetrics"
   },
   "participateInMetaMetricsDescription": {
-    "message": "Učestvujte u MetaMetrics da biste nam pomogli da poboljšamo MetaMask."
+    "message": "Učestvujte u MetaMetrics da biste nam pomogli da poboljšamo AptosMask."
   },
   "password": {
     "message": "Лозинка"
@@ -928,16 +928,16 @@
     "message": "Obratite pažnju da niko drugi ne gleda u vaš ekran kad skenirate ovaj kod"
   },
   "syncWithMobileComplete": {
-    "message": "Vaši podaci su uspešno sinhronizovani. Uživajte u mobilnoj aplikaciji MetaMask!"
+    "message": "Vaši podaci su uspešno sinhronizovani. Uživajte u mobilnoj aplikaciji AptosMask!"
   },
   "syncWithMobileDesc": {
-    "message": "Možete sinhronizovati vaše naloge i informacije sa svojim mobilnim uređajem. Otvorite mobilnu aplikaciju MetaMask, idite na \"Podešavanja\" i pritisnite \"Sinhronizuj iz ekstenzije za pregledač\""
+    "message": "Možete sinhronizovati vaše naloge i informacije sa svojim mobilnim uređajem. Otvorite mobilnu aplikaciju AptosMask, idite na \"Podešavanja\" i pritisnite \"Sinhronizuj iz ekstenzije za pregledač\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "Ako prvi put otvorite aplikaciju MetaMask Mobile, samo sledite korake u svom telefonu."
+    "message": "Ako prvi put otvorite aplikaciju AptosMask Mobile, samo sledite korake u svom telefonu."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Skenirajte ovaj kod uz pomoć svoje MetaMask mobilne aplikacije"
+    "message": "Skenirajte ovaj kod uz pomoć svoje AptosMask mobilne aplikacije"
   },
   "syncWithMobileTitle": {
     "message": "Sinhronizujte sa mobilnim uređajem"
@@ -1022,7 +1022,7 @@
     "message": "Пробај поново"
   },
   "typePassword": {
-    "message": "Ukucajte svoju MetaMask šifru"
+    "message": "Ukucajte svoju AptosMask šifru"
   },
   "unapproved": {
     "message": "Neodobren"
@@ -1073,7 +1073,7 @@
     "message": "Posetite našu veb lokaciju"
   },
   "welcome": {
-    "message": "Dobro došli na MetaMask"
+    "message": "Dobro došli na AptosMask"
   },
   "welcomeBack": {
     "message": "Dobro došli nazad!"

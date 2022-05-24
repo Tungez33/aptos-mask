@@ -32,7 +32,7 @@ export type PermissionConstraint = {
    * The context(s) in which this capability is meaningful.
    *
    * It is required by the standard, but we make it optional since there is only
-   * one context in our usage (i.e. the user's MetaMask instance).
+   * one context in our usage (i.e. the user's AptosMask instance).
    */
   readonly '@context'?: NonEmptyArray<string>;
 

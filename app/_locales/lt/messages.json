@@ -75,7 +75,7 @@
     "description": "The name of the application (Beta)"
   },
   "appNameFlask": {
-    "message": "MetaMask Flask",
+    "message": "AptosMask Flask",
     "description": "The name of the application (Flask)"
   },
   "approve": {

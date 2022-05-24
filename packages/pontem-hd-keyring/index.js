@@ -6,7 +6,7 @@ const stcUtil = require('@starcoin/stc-util')
 const bip39 = require('bip39')
 const sigUtil = require('eth-sig-util')
 const log = require('loglevel')
-const util = require('./util');
+const util = require('./util')
 
 // Options:
 const hdPathString = `m/44'/101010'/0'/0'`
@@ -15,18 +15,18 @@ const type = 'HD Key Tree'
 class HdKeyring extends SimpleKeyring {
 
   /* PUBLIC METHODS */
-  constructor(opts = {}) {
+  constructor (opts = {}) {
     super()
     this.type = type
     this.deserialize(opts)
   }
 
-  serialize() {
-    let mnemonicAsString = this.mnemonic;
-    if(Array.isArray(this.mnemonic)) {
-      mnemonicAsString = Buffer.from(this.mnemonic);
-    } else if(Buffer.isBuffer(this.mnemonic)) {
-      mnemonicAsString = this.mnemonic.toString('utf8');
+  serialize () {
+    let mnemonicAsString = this.mnemonic
+    if (Array.isArray(this.mnemonic)) {
+      mnemonicAsString = Buffer.from(this.mnemonic)
+    } else if (Buffer.isBuffer(this.mnemonic)) {
+      mnemonicAsString = this.mnemonic.toString('utf8')
     }
 
     return Promise.resolve({
@@ -36,7 +36,7 @@ class HdKeyring extends SimpleKeyring {
     })
   }
 
-  deserialize(opts = {}) {
+  deserialize (opts = {}) {
     this.opts = opts || {}
     this.wallets = []
     this.mnemonic = null
@@ -54,7 +54,7 @@ class HdKeyring extends SimpleKeyring {
     return Promise.resolve([])
   }
 
-  addAccounts(numberOfAccounts = 1) {
+  addAccounts (numberOfAccounts = 1) {
     if (!this.root) {
       this._initFromMnemonic(bip39.generateMnemonic())
     }
@@ -76,7 +76,7 @@ class HdKeyring extends SimpleKeyring {
     return Promise.all(hexWallets)
   }
 
-  getAccounts() {
+  getAccounts () {
     return Promise.all(this.wallets.map((w) => {
       return w.getAddress()
         .then((address) => {
@@ -85,18 +85,18 @@ class HdKeyring extends SimpleKeyring {
     }))
   }
 
-  exportAccount(address) {
+  exportAccount (address) {
     return this._getWalletForAccount(address).then((wallet) => wallet.getPrivateKey().toString('hex'))
   }
 
-  signTransaction(address, tx, opts = {}) {
+  signTransaction (address, tx, opts = {}) {
     return this._getWalletForAccount(address, opts)
       .then(async (w) => {
-        console.log('[Pontem][PontemHdKeyring] signTransaction', { address, tx });
+        console.log('[Pontem][PontemHdKeyring] signTransaction', { address, tx })
         const privateKey = w.getPrivateKey()
         const publicKeyString = await w.getPublicKeyString()
 
-        const hex = util.signMessage({ message: tx, privateKey: privateKey })
+        const hex = util.signMessage({ message: tx, privateKey })
 
         return Promise.resolve({
           type: 'ed25519_signature',
@@ -106,7 +106,7 @@ class HdKeyring extends SimpleKeyring {
       })
   }
 
-  signPersonalMessage(address, message, opts = {}) {
+  signPersonalMessage (address, message, opts = {}) {
     return this._getWalletForAccount(address, opts)
       .then((w) => {
         const privKey = w.getPrivateKey()
@@ -118,14 +118,14 @@ class HdKeyring extends SimpleKeyring {
       })
   }
 
-  getPublicKeyFor(withAccount, opts = {}) {
+  getPublicKeyFor (withAccount, opts = {}) {
     return this._getWalletForAccount(withAccount, opts)
       .then((w) => {
         return w.getPublicKeyString()
       })
   }
 
-  getEncryptionPublicKey(withAccount, opts = {}) {
+  getEncryptionPublicKey (withAccount, opts = {}) {
     return this._getWalletForAccount(withAccount, opts)
       .then((w) => {
         const privKey = w.getPrivateKey()
@@ -134,12 +134,12 @@ class HdKeyring extends SimpleKeyring {
       })
   }
 
-  getReceiptIdentifier(address) {
+  getReceiptIdentifier (address) {
     return this._getWalletForAccount(address).then((wallet) => wallet.getReceiptIdentifier())
   }
 
   // For stc_decrypt:
-  decryptMessage(withAccount, encryptedData, opts) {
+  decryptMessage (withAccount, encryptedData, opts) {
     return this._getWalletForAccount(withAccount, opts)
       .then((w) => {
         const privKey = stcUtil.stripHexPrefix(w.getPrivateKeyString())
@@ -149,12 +149,12 @@ class HdKeyring extends SimpleKeyring {
   }
 
   /* PRIVATE METHODS */
-  _initFromMnemonic(mnemonic) {
+  _initFromMnemonic (mnemonic) {
     this.mnemonic = mnemonic
     if (Array.isArray(mnemonic)) {
       this.mnemonic = Buffer.from(mnemonic)
-    } else if(Buffer.isBuffer(mnemonic)) {
-      this.mnemonic = this.mnemonic.toString('utf8');
+    } else if (Buffer.isBuffer(mnemonic)) {
+      this.mnemonic = this.mnemonic.toString('utf8')
     }
 
     const seed = bip39.mnemonicToSeed(this.mnemonic).slice(32)
@@ -162,7 +162,7 @@ class HdKeyring extends SimpleKeyring {
     this.root = this.hdWallet.derivePath(this.hdPath)
   }
 
-  _getWalletForAccount(account) {
+  _getWalletForAccount (account) {
     const targetAddress = sigUtil.normalize(account)
     return Promise.all(this.wallets.map(async (w) => {
       const addressBytes = await w.getAddress()

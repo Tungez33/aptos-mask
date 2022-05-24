@@ -5,7 +5,7 @@ const {
   regularDelayMs,
 } = require('../helpers');
 
-describe('Send ETH from inside MetaMask using default gas', function () {
+describe('Send ETH from inside AptosMask using default gas', function () {
   const ganacheOptions = {
     accounts: [
       {
@@ -91,7 +91,7 @@ describe('Send ETH from inside MetaMask using default gas', function () {
   });
 });
 
-describe('Send ETH from inside MetaMask using advanced gas modal', function () {
+describe('Send ETH from inside AptosMask using advanced gas modal', function () {
   const ganacheOptions = {
     accounts: [
       {
@@ -228,7 +228,7 @@ describe('Send ETH from dapp using advanced gas controls', function () {
         await driver.delay(2000);
         windowHandles = await driver.getAllWindowHandles();
         await driver.switchToWindowWithTitle(
-          'MetaMask Notification',
+          'AptosMask Notification',
           windowHandles,
         );
         await driver.assertElementNotPresent({ text: 'Data', tag: 'li' });

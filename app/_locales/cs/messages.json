@@ -30,7 +30,7 @@
     "description": "The name of the application (Beta)"
   },
   "appNameFlask": {
-    "message": "MetaMask Flask",
+    "message": "AptosMask Flask",
     "description": "The name of the application (Flask)"
   },
   "approve": {
@@ -67,7 +67,7 @@
     "message": "Připojuji se k Kovan Test Network"
   },
   "connectingToMainnet": {
-    "message": "Připojuji se k Ethereum Mainnet"
+    "message": "Připojuji se k Aptos Mainnet"
   },
   "connectingToRinkeby": {
     "message": "Připojuji se k Rinkeby Test Network"
@@ -173,7 +173,7 @@
     "message": "Import účtu"
   },
   "importAccountMsg": {
-    "message": "Importované účty nebudou spojeny s vaší původní MetaMaskovou klíčovou frází. Zjistěte více o importovaných účtech "
+    "message": "Importované účty nebudou spojeny s vaší původní AptosMaskovou klíčovou frází. Zjistěte více o importovaných účtech "
   },
   "imported": {
     "message": "Importováno",
@@ -226,7 +226,7 @@
     "message": "Zpráva"
   },
   "metamaskDescription": {
-    "message": "MetaMask je bezpečný osobní trezor pro Ethereum."
+    "message": "AptosMask je bezpečný osobní trezor pro Ethereum."
   },
   "mustSelectOne": {
     "message": "Musíte zvolit aspoň 1 token."
@@ -426,7 +426,7 @@
     "message": "Navštivte naši stránku"
   },
   "welcome": {
-    "message": "Vítejte v MetaMask"
+    "message": "Vítejte v AptosMask"
   },
   "youSign": {
     "message": "Podepisujete"
