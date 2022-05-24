@@ -35,19 +35,19 @@ async function start() {
   const platforms = ['chrome', 'firefox', 'opera'];
   const buildLinks = platforms
     .map((platform) => {
-      const url = `${BUILD_LINK_BASE}/builds/metamask-${platform}-${VERSION}.zip`;
+      const url = `${BUILD_LINK_BASE}/builds/aptosmask-${platform}-${VERSION}.zip`;
       return `<a href="${url}">${platform}</a>`;
     })
     .join(', ');
   const betaBuildLinks = platforms
     .map((platform) => {
-      const url = `${BUILD_LINK_BASE}/builds-beta/metamask-beta-${platform}-${VERSION}.zip`;
+      const url = `${BUILD_LINK_BASE}/builds-beta/aptosmask-beta-${platform}-${VERSION}.zip`;
       return `<a href="${url}">${platform}</a>`;
     })
     .join(', ');
   const flaskBuildLinks = platforms
     .map((platform) => {
-      const url = `${BUILD_LINK_BASE}/builds-flask/metamask-flask-${platform}-${VERSION}.zip`;
+      const url = `${BUILD_LINK_BASE}/builds-flask/aptosmask-flask-${platform}-${VERSION}.zip`;
       return `<a href="${url}">${platform}</a>`;
     })
     .join(', ');
