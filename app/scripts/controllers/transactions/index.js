@@ -1075,26 +1075,28 @@ export default class TransactionController extends EventEmitter {
     const fromAddress = txParams.from;
     console.log('[Pontem][TransactionController] txParams', { txParams, amount: new BigNumber(txParams.value, 16).toString(10) });
 
+    const gasUnitPrice = fromHexToNumber(txMeta.txParams.gasPrice);
     // TODO move into create tx step
     const payload = {
       sender: fromAddress,
       sequence_number: fromHexToNumber(txParams.nonce),
       max_gas_amount: fromHexToNumber(txMeta.txParams.gas),
-      gas_unit_price: fromHexToNumber(txMeta.txParams.gasPrice),
+      gas_unit_price: gasUnitPrice !== '0' ? gasUnitPrice : '1',
       gas_currency_code: "XUS",
       expiration_timestamp_secs: (Math.floor(Date.now() / 1000) + 600).toString(),
-      payload: txParams.payload,
+      payload: txParams.payload
+        ? txParams.payload :
+        {
+          type: "script_function_payload",
+          function: "0x1::Coin::transfer",
+          type_arguments: ['0x1::TestCoin::TestCoin'],
+          arguments: [
+            txParams.to,
+            new BigNumber(txParams.value, 16).div(new BigNumber(10, 10).pow(18)).toString(10)
+          ]
+        }
     }
-
-    // {
-    //     type: "script_function_payload",
-    //       function: "0x1::Coin::transfer",
-    //       type_arguments: ['0x1::TestCoin::TestCoin'],
-    //     arguments: [
-    //     txParams.to,
-    //     new BigNumber(txParams.value, 16).div(new BigNumber(10, 10).pow(18)).toString(10)
-    //   ]
-    // }
+    console.log('[Pontem][TransactionController] payload', payload );
 
     const msgForSign = await (new Promise((resolve, reject) => {
       this.pontemQuery.createSignMessage(payload, (err, response) => {
